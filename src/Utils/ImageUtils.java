@@ -7,15 +7,20 @@ public class ImageUtils {
 
     private static Image iconImg;
     private static Image backgroundImg;
+    private static Image backgroundImg2;
     private static Image coverImg;
     private static Image titleImg;
+    private static Image Usagi;
 
 
     public ImageUtils() {
         iconImg = Toolkit.getDefaultToolkit().getImage(".\\img\\icon.png");
         backgroundImg = Toolkit.getDefaultToolkit().getImage(".\\img\\backimg.png");
+        backgroundImg2 = Toolkit.getDefaultToolkit().getImage(".\\img\\backimg2.png");
         coverImg = Toolkit.getDefaultToolkit().getImage(".\\img\\coverimg.png");
         titleImg = Toolkit.getDefaultToolkit().getImage(".\\img\\Title1.png");
+
+        Usagi = Toolkit.getDefaultToolkit().getImage(".\\img\\Usaqi.png");
     }
 
 
@@ -30,6 +35,23 @@ public class ImageUtils {
         this.backgroundImg = backgroundImg;
         this.coverImg = coverImg;
         this.titleImg = titleImg;
+    }
+
+    public ImageUtils(Image iconImg, Image backgroundImg, Image coverImg, Image titleImg, Image Usagi) {
+        this.iconImg = iconImg;
+        this.backgroundImg = backgroundImg;
+        this.coverImg = coverImg;
+        this.titleImg = titleImg;
+        this.Usagi = Usagi;
+    }
+
+    public ImageUtils(Image iconImg, Image backgroundImg, Image backgroundImg2, Image coverImg, Image titleImg, Image Usagi) {
+        this.iconImg = iconImg;
+        this.backgroundImg = backgroundImg;
+        this.backgroundImg2 = backgroundImg2;
+        this.coverImg = coverImg;
+        this.titleImg = titleImg;
+        this.Usagi = Usagi;
     }
 
     /**
@@ -94,6 +116,38 @@ public class ImageUtils {
      */
     public static void setTitleImg(Image titleImg) {
         ImageUtils.titleImg = titleImg;
+    }
+
+    /**
+     * 获取
+     * @return Usagi
+     */
+    public static Image getUsagi() {
+        return Usagi;
+    }
+
+    /**
+     * 设置
+     * @param Usagi
+     */
+    public static void setUsagi(Image Usagi) {
+        ImageUtils.Usagi = Usagi;
+    }
+
+    /**
+     * 获取
+     * @return backgroundImg2
+     */
+    public static Image getBackgroundImg2() {
+        return backgroundImg2;
+    }
+
+    /**
+     * 设置
+     * @param backgroundImg2
+     */
+    public static void setBackgroundImg2(Image backgroundImg2) {
+        ImageUtils.backgroundImg2 = backgroundImg2;
     }
 
     public String toString() {
