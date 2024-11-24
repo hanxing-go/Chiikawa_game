@@ -1,5 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        new GameFrame();
+        GameFrame app = new GameFrame();
+
+        app.initFrame();
     }
 }
