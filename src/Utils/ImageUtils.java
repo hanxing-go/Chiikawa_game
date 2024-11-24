@@ -1,69 +1,75 @@
 package Utils;
 
+import java.awt.*;
+
 public class ImageUtils {
-    private static String iconUrl = ".\\img\\icon.png";
-    private static String backgroundImgUrl = ".\\img\\backgroundimg.png";
-    private static String coverImgUrl = ".\\img\\coverimg.png";
+
+    private static Image iconImg;
+    private static Image backgroundImg;
+    private static Image coverImg;
 
 
     public ImageUtils() {
+        iconImg = Toolkit.getDefaultToolkit().getImage(".\\img\\icon.png");
+        backgroundImg = Toolkit.getDefaultToolkit().getImage(".\\img\\coverimage.png");
+        coverImg = Toolkit.getDefaultToolkit().getImage(".\\img\\coverimg.png");
     }
 
-    public ImageUtils(String iconUrl, String backgroundImgUrl, String coverImgUrl) {
-        this.iconUrl = iconUrl;
-        this.backgroundImgUrl = backgroundImgUrl;
-        this.coverImgUrl = coverImgUrl;
-    }
-
-    /**
-     * 获取
-     * @return iconUrl
-     */
-    public static String getIconUrl() {
-        return iconUrl;
-    }
-
-    /**
-     * 设置
-     * @param iconUrl
-     */
-    public static void setIconUrl(String iconUrl) {
-        ImageUtils.iconUrl = iconUrl;
+    public ImageUtils(Image iconImg, Image backgroundImg, Image coverImg) {
+        this.iconImg = iconImg;
+        this.backgroundImg = backgroundImg;
+        this.coverImg = coverImg;
     }
 
     /**
      * 获取
-     * @return backgroundImgUrl
+     * @return iconImg
      */
-    public static String getBackgroundImgUrl() {
-        return backgroundImgUrl;
+    public static Image getIconImg() {
+        return iconImg;
     }
 
     /**
      * 设置
-     * @param backgroundImgUrl
+     * @param iconImg
      */
-    public static void setBackgroundImgUrl(String backgroundImgUrl) {
-        ImageUtils.backgroundImgUrl = backgroundImgUrl;
+    public static void setIconImg(Image iconImg) {
+        ImageUtils.iconImg = iconImg;
     }
 
     /**
      * 获取
-     * @return coverImgUrl
+     * @return backgroundImg
      */
-    public static String getCoverImgUrl() {
-        return coverImgUrl;
+    public static Image getBackgroundImg() {
+        return backgroundImg;
     }
 
     /**
      * 设置
-     * @param coverImgUrl
+     * @param backgroundImg
      */
-    public static void setCoverImgUrl(String coverImgUrl) {
-        ImageUtils.coverImgUrl = coverImgUrl;
+    public static void setBackgroundImg(Image backgroundImg) {
+        ImageUtils.backgroundImg = backgroundImg;
+    }
+
+    /**
+     * 获取
+     * @return coverImg
+     */
+    public static Image getCoverImg() {
+        return coverImg;
+    }
+
+    /**
+     * 设置
+     * @param coverImg
+     */
+    public static void setCoverImg(Image coverImg) {
+        ImageUtils.coverImg = coverImg;
     }
 
     public String toString() {
-        return "ImageUtils{iconUrl = " + iconUrl + ", backgroundImgUrl = " + backgroundImgUrl + ", coverImgUrl = " + coverImgUrl + "}";
+        return "ImageUtils{iconImg = " + iconImg + ", backgroundImg = " + backgroundImg + ", coverImg = " + coverImg + "}";
     }
 }
