@@ -16,6 +16,7 @@ public class ImageUtils {
     private static Image uprightWorm;
     private static Image CreepWorm;
     private static Image bigWorm;
+    private static Image birdBoss;
 
 
     public ImageUtils() {
@@ -33,9 +34,10 @@ public class ImageUtils {
         CreepWorm = Toolkit.getDefaultToolkit().getImage(".\\img\\creepworm.png");
         bigWorm = Toolkit.getDefaultToolkit().getImage(".\\img\\bigworm.png");
 
+        birdBoss = Toolkit.getDefaultToolkit().getImage(".\\img\\bossbird.png");
     }
 
-    public ImageUtils(Image iconImg, Image backgroundImg, Image backgroundImg2, Image coverImg, Image titleImg, Image Usagi, Image explode, Image enemy, Image uprightWorm, Image CreepWorm, Image bigWorm) {
+    public ImageUtils(Image iconImg, Image backgroundImg, Image backgroundImg2, Image coverImg, Image titleImg, Image Usagi, Image explode, Image enemy, Image uprightWorm, Image CreepWorm, Image bigWorm, Image birdBoss) {
         this.iconImg = iconImg;
         this.backgroundImg = backgroundImg;
         this.backgroundImg2 = backgroundImg2;
@@ -47,6 +49,7 @@ public class ImageUtils {
         this.uprightWorm = uprightWorm;
         this.CreepWorm = CreepWorm;
         this.bigWorm = bigWorm;
+        this.birdBoss = birdBoss;
     }
 
 
@@ -224,6 +227,22 @@ public class ImageUtils {
      */
     public static void setBigWorm(Image bigWorm) {
         ImageUtils.bigWorm = bigWorm;
+    }
+
+    /**
+     * 获取
+     * @return birdBoss
+     */
+    public static Image getBirdBoss() {
+        return birdBoss;
+    }
+
+    /**
+     * 设置
+     * @param birdBoss
+     */
+    public static void setBirdBoss(Image birdBoss) {
+        ImageUtils.birdBoss = birdBoss;
     }
 
     /**

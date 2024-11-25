@@ -2,12 +2,8 @@ import JavaBean.*;
 import Utils.ImageUtils;
 
 import javax.swing.*;
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.font.ImageGraphicAttribute;
-import java.awt.image.BufferedImage;
-import java.sql.SQLOutput;
 
 import java.util.*;
 import java.util.List;
@@ -23,13 +19,17 @@ public class GameFrame extends JFrame{
     private Usagi usagi = new Usagi(100,250,imageUtils.getUsagi(),
             120,114,0);
 
-//    private Explode explode = new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45,imageUtils.getExplode(),
-//            10,10, 2);
+    private Explode explode = new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45,imageUtils.getExplode(),
+            10,10, 2);
 
     private List<Explode> explodeList = new ArrayList<>();// 批量添加子弹，创建队列集合
 
 //    private Enemy enemy = new Enemy(1200,250,imageUtils.getEnemy(),50,51, 5);
     private List<Enemy> enemies = new ArrayList<>();
+    private BirdBoss birdBoss = new BirdBoss(1498,170,imageUtils.getBirdBoss(),100,298,2);
+    private int numEnemy = 0;//统计生成的怪物的数量
+    private int gameScore = 0;
+    private int STAGE = 10;//阶段，由简单到难
 
     private Robot robot;
     public GameFrame () {
@@ -39,6 +39,7 @@ public class GameFrame extends JFrame{
 
 
     public void initFrame () {
+
         try {
             robot = new Robot();
         } catch (AWTException e) {
@@ -118,6 +119,12 @@ public class GameFrame extends JFrame{
             for (int i = 0; i < explodeList.size(); i++) {
                 explodeList.get(i).paintSelf(gBuffer);
             }
+//            explode.paintSelf(gBuffer);
+            //如果得分大于500 那么boss降临
+            if (gameScore >= 10) {
+                birdBoss.paintSelf(gBuffer);
+            }
+
         } else if (flag == 1) {
 
             gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
@@ -130,6 +137,9 @@ public class GameFrame extends JFrame{
         }
         g.drawImage(iBuffer, 0, 0, this);
         count++;//每重绘一次，就自增
+        if (count == Integer.MAX_VALUE) {
+            count = 0;
+        }
 
     }
 
@@ -153,17 +163,34 @@ public class GameFrame extends JFrame{
 
         for (int j = 0; j < explodeList.size(); j++) {
 
+            //判断是否与boss相撞
+            if (birdBoss.getX() <= 800 &&explodeList.get(j).getRectangle().intersects((birdBoss.getRectangle()))) {
+                birdBoss.setHP(birdBoss.getHP() - 1);
+                explodeList.get(j).setX(1400);
+//                System.out.println(birdBoss.getHP());
+                if (birdBoss.getHP() < 0) {
+                    birdBoss.setImg(null);
+                }
+            }
             if (explodeList.get(j).getX() > 1200) {
                 explodeList.remove(j);//判断是否出界
             }
         }
         for (int i = 0; i < explodeList.size(); i++) {
+
             for (int j = 0; j < enemies.size(); j++) {
 //
                 if (enemies.get(j).getRectangle().intersects(explodeList.get(i).getRectangle())) {
                     explodeList.get(i).setX(1400);
-                    enemies.get(j).setX(-500);
+                    enemies.get(j).setHP(enemies.get(j).getHP() - 1);
                     //将子弹与敌人的坐标修改出去，后面再统一删除，不知道为啥直接删会越界
+                    //如果生命值小于等于0则
+                    if (enemies.get(j).getHP() <= 0)
+                    {
+                        enemies.get(j).setX(-500);
+                        gameScore += enemies.get(j).getType();
+                        System.out.println(gameScore);
+                    }
                 }
 
             }
@@ -182,18 +209,31 @@ public class GameFrame extends JFrame{
 
     private void addEnemy() {
         Random random = new Random();
-        if (count % 20 == 1) {
+        if (count % (3 * STAGE) == 1) {
             // 对每一个敌人的纵坐标应该是要随机的
             int y = 60 + random.nextInt(460);
 //            System.out.println(y);
             enemies.add(new UprightWorm(1200,y,imageUtils.getUprightWorm(),61,60, 6));
-        } else if (count % 40 == 2) {
+            numEnemy++;
+        } else if (count % (2 * STAGE) == 2) {
             int y = 60 + random.nextInt(470);
             enemies.add(new CreepWorm(1200, y, imageUtils.getCreepWorm(),61,45,5));
-        } else if (count % 500 == 3) {
+//            enemies.add(new BirdBoss(1498,250,ImageUtils.getBirdBoss(),200,298,5));
+            numEnemy++;
+        } else if (numEnemy % (5 * STAGE) == 0 && numEnemy != 0) {
             int y = 0 + random.nextInt(400);
-            System.out.println(y);
+            System.out.println(numEnemy);
             enemies.add(new BigWorm(1200, y, imageUtils.getBigWorm(), 177, 200, 15));
+            numEnemy++;
+        }
+
+        //阶段进化分数
+        double score = Math.pow(250 , 11 - STAGE);
+        if (numEnemy > score) {
+            if (STAGE > 1) {
+                STAGE /= 2;
+                System.out.println(STAGE);
+            }
         }
     }
 
