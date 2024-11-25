@@ -3,9 +3,12 @@ import JavaBean.Usagi;
 import Utils.ImageUtils;
 
 import javax.swing.*;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.ImageGraphicAttribute;
+import java.awt.image.BufferedImage;
+import java.sql.SQLOutput;
 
 public class GameFrame extends JFrame{
 
@@ -16,6 +19,8 @@ public class GameFrame extends JFrame{
     private Background background1 = new Background(2400,0, imageUtils.getBackgroundImg2(),1,1,5);
     private Usagi usagi = new Usagi(100,250,imageUtils.getUsagi(),
             120,114,0);
+
+    private Robot robot;
     public GameFrame () {
         super("Chiikawa");
     }
@@ -23,17 +28,22 @@ public class GameFrame extends JFrame{
 
 
     public void initFrame () {
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
+        }
         //创建一个窗口，并且设置名字
         this.setSize(1200,580);
         //设定好高宽
         this.setResizable(false);
-
         //设置窗口大小不可变
         this.setLocationRelativeTo(null);
         //设置窗口初始居中
+
         Image icon = imageUtils.getIconImg();
         this.setIconImage(icon);
-
+        //设置窗口图标
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //添加窗口关闭
         this.setVisible(true);
@@ -55,27 +65,32 @@ public class GameFrame extends JFrame{
         }
     }
 
-
+    private Image iBuffer;
+    private Graphics gBuffer;
+    // 这里要实现双缓冲技术
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
 
+        if (iBuffer == null) {
+            //如果没有缓冲对象，则先创立一个缓冲对象
+            iBuffer = createImage(this.getSize().width, this.getSize().height);
+            gBuffer = iBuffer.getGraphics();
+        }
 
         if (flag == 0) {
-//            this.setSize(1203,600);
-//            g.drawImage(imageUtils.getBackgroundImg(), 0, 0,null);
-//            Usagi usagi = new Usagi(imageUtils.getUsagi());
-//            g.drawImage(usagi.getImg(),250,250,null);
-            background.paintSelf(g);
-            background1.paintSelf(g);
-            usagi.paintSelf(g);
+
+            background.paintSelf(gBuffer);
+            background1.paintSelf(gBuffer);
+            usagi.paintSelf(gBuffer);
         } else if (flag == 1) {
-//            System.out.println(1);
-//            this.setSize(1203,600);
-            g.drawImage(background.getImg(), background.getX(), background.getY(),null);
-            g.drawImage(imageUtils.getCoverImg(),445,110,null);
-            g.drawImage(imageUtils.getTitleImg(),435,390,null);
+
+            gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
+            gBuffer.drawImage(background.getImg(), background.getX(), background.getY(),null);
+            gBuffer.drawImage(background1.getImg(), background1.getX(), background1.getY(),null);
+            gBuffer.drawImage(imageUtils.getCoverImg(),445,110,null);
+            gBuffer.drawImage(imageUtils.getTitleImg(),435,390,null);
         }
+        g.drawImage(iBuffer, 0, 0, this);
     }
 
 
@@ -88,6 +103,15 @@ public class GameFrame extends JFrame{
                 super.keyPressed(e);
                 if (e.getKeyChar() == ' ') {
                     flag = flag ^ 1;
+                    if (flag == 0) {
+                        Point p = getLocationOnScreen();
+                        System.out.println(p.x + " " + p.y);
+                        System.out.println(usagi.getX() + " " + usagi.getY());
+                        System.out.println(p.x + usagi.getX());
+                        System.out.println(p.y + usagi.getY());
+                        robot.mouseMove(p.x, p.y);
+                        
+                    }
                     repaint();
                 }
                 if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
@@ -96,6 +120,7 @@ public class GameFrame extends JFrame{
             }
         });
     }
+
 
     private void addMouse() {
         this.addMouseListener(new MouseAdapter() {
@@ -113,13 +138,12 @@ public class GameFrame extends JFrame{
                 super.mouseMoved(e);
                 int x = e.getX();
                 int y = e.getY();
-                if (x >= usagi.getWeight() /2  && x <= 1200 - usagi.getWeight() / 2) {
+                if (x >= usagi.getWeight() /2  && x <= 1200 - usagi.getWeight() / 2 && flag == 0) {
                     usagi.setX(e.getX() - usagi.getWeight() / 2);
 
                 }
-                if (y >= usagi.getHeight()) {
+                if (y >= usagi.getHeight() && flag == 0) {
                     usagi.setY(e.getY() - usagi.getHeight());
-                    System.out.println(y);
                 }
             }
         });
