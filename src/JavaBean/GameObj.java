@@ -34,7 +34,10 @@ public class GameObj {
         this.speed = speed;
     }
 
+
+
     public void paintSelf(Graphics g) {
+
         //重绘自己
         g.drawImage(this.img,this.x,this.y,null);
     }

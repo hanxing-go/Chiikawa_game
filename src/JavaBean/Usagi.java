@@ -13,6 +13,7 @@ public class Usagi extends GameObj{
         super(x, y, img, height, weight, speed);
     }
 
+
     @Override
     public void paintSelf(Graphics g) {
         super.paintSelf(g);
