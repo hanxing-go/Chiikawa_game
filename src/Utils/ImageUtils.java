@@ -12,6 +12,7 @@ public class ImageUtils {
     private static Image titleImg;
     private static Image Usagi;
     private static Image explode;
+    private static Image enemy;
 
 
     public ImageUtils() {
@@ -23,6 +24,7 @@ public class ImageUtils {
 
         Usagi = Toolkit.getDefaultToolkit().getImage(".\\img\\Usaqi.png");
         explode = Toolkit.getDefaultToolkit().getImage(".\\img\\explode.png");
+        enemy = Toolkit.getDefaultToolkit().getImage(".\\img\\enemy.png");
     }
 
 
@@ -64,6 +66,17 @@ public class ImageUtils {
         this.titleImg = titleImg;
         this.Usagi = Usagi;
         this.explode = explode;
+    }
+
+    public ImageUtils(Image iconImg, Image backgroundImg, Image backgroundImg2, Image coverImg, Image titleImg, Image Usagi, Image explode, Image Enemy) {
+        this.iconImg = iconImg;
+        this.backgroundImg = backgroundImg;
+        this.backgroundImg2 = backgroundImg2;
+        this.coverImg = coverImg;
+        this.titleImg = titleImg;
+        this.Usagi = Usagi;
+        this.explode = explode;
+        this.enemy = enemy;
     }
 
     /**
@@ -176,6 +189,22 @@ public class ImageUtils {
      */
     public static void setExplode(Image explode) {
         ImageUtils.explode = explode;
+    }
+
+    /**
+     * 获取
+     * @return Enemy
+     */
+    public static Image getEnemy() {
+        return enemy;
+    }
+
+    /**
+     * 设置
+     * @param Enemy
+     */
+    public static void setEnemy(Image Enemy) {
+        ImageUtils.enemy = Enemy;
     }
 
     public String toString() {

@@ -1,4 +1,5 @@
 import JavaBean.Background;
+import JavaBean.Enemy;
 import JavaBean.Explode;
 import JavaBean.Usagi;
 import Utils.ImageUtils;
@@ -10,7 +11,10 @@ import java.awt.event.*;
 import java.awt.font.ImageGraphicAttribute;
 import java.awt.image.BufferedImage;
 import java.sql.SQLOutput;
-import java.util.LinkedList;
+
+import java.util.*;
+import java.util.List;
+
 
 public class GameFrame extends JFrame{
 
@@ -21,8 +25,14 @@ public class GameFrame extends JFrame{
     private Background background1 = new Background(2400,0, imageUtils.getBackgroundImg2(),1,1,5);
     private Usagi usagi = new Usagi(100,250,imageUtils.getUsagi(),
             120,114,0);
-    private Explode explode = new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45,imageUtils.getExplode(),
-            10,10, 20);
+
+//    private Explode explode = new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45,imageUtils.getExplode(),
+//            10,10, 2);
+
+    private List<Explode> explodeList = new ArrayList<>();// 批量添加子弹，创建队列集合
+
+//    private Enemy enemy = new Enemy(1200,250,imageUtils.getEnemy(),50,51, 5);
+    private List<Enemy> enemies = new ArrayList<>();
 
     private Robot robot;
     public GameFrame () {
@@ -60,6 +70,10 @@ public class GameFrame extends JFrame{
 //        repaint();
 
         while (true) {
+
+            if (flag == 0) {
+                addExplode();
+            }
             repaint();
             try {
                 Thread.sleep(25);
@@ -71,6 +85,7 @@ public class GameFrame extends JFrame{
 
     private Image iBuffer;
     private Graphics gBuffer;
+    private long count = 1;
     // 这里要实现双缓冲技术
     @Override
     public void paint(Graphics g) {
@@ -86,8 +101,13 @@ public class GameFrame extends JFrame{
             background.paintSelf(gBuffer);
             background1.paintSelf(gBuffer);
             usagi.paintSelf(gBuffer);
-            explode.paintSelf(gBuffer);
+            for (int i = 0; i < enemies.size(); i++) {
+                enemies.get(i).paintSelf(gBuffer);
+            }
 
+            for (int i = 0; i < explodeList.size(); i++) {
+                explodeList.get(i).paintSelf(gBuffer);
+            }
         } else if (flag == 1) {
 
             gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
@@ -97,9 +117,23 @@ public class GameFrame extends JFrame{
             gBuffer.drawImage(imageUtils.getTitleImg(),435,390,null);
         }
         g.drawImage(iBuffer, 0, 0, this);
+        count++;//每重绘一次，就自增
     }
 
 
+    private void addExplode() {
+        if (count % 8 == 1) {
+            explodeList.add(new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45, imageUtils.getExplode(),
+                    10, 10, 20));
+        }
+        if (count % 10 == 1) {
+            // 对每一个敌人的纵坐标应该是要随机的
+            Random random = new Random();
+            int y = 60 + random.nextInt(460);
+            System.out.println(y);
+            enemies.add(new Enemy(1200,y,imageUtils.getEnemy(),61,60, 5));
+        }
+    }
 
 
     private void addKey() {
@@ -109,6 +143,7 @@ public class GameFrame extends JFrame{
                 super.keyPressed(e);
                 if (e.getKeyChar() == ' ') {
                     flag = flag ^ 1;
+
 //                    if (flag == 0) {
 //                        Point p = getLocationOnScreen();
 //                        System.out.println(p.x + " " + p.y);
@@ -124,6 +159,7 @@ public class GameFrame extends JFrame{
 //                        //非常危险的代码，慎用
 ////                        }
 //                    }
+
                     repaint();
                 }
                 if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
