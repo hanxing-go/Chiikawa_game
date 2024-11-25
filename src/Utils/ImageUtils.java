@@ -13,6 +13,9 @@ public class ImageUtils {
     private static Image Usagi;
     private static Image explode;
     private static Image enemy;
+    private static Image uprightWorm;
+    private static Image CreepWorm;
+    private static Image bigWorm;
 
 
     public ImageUtils() {
@@ -25,50 +28,14 @@ public class ImageUtils {
         Usagi = Toolkit.getDefaultToolkit().getImage(".\\img\\Usaqi.png");
         explode = Toolkit.getDefaultToolkit().getImage(".\\img\\explode.png");
         enemy = Toolkit.getDefaultToolkit().getImage(".\\img\\enemy.png");
+
+        uprightWorm = Toolkit.getDefaultToolkit().getImage(".\\img\\uprightWorm.png");
+        CreepWorm = Toolkit.getDefaultToolkit().getImage(".\\img\\creepworm.png");
+        bigWorm = Toolkit.getDefaultToolkit().getImage(".\\img\\bigworm.png");
+
     }
 
-
-    public ImageUtils(Image iconImg, Image backgroundImg, Image coverImg) {
-        this.iconImg = iconImg;
-        this.backgroundImg = backgroundImg;
-        this.coverImg = coverImg;
-    }
-
-    public ImageUtils(Image iconImg, Image backgroundImg, Image coverImg, Image titleImg) {
-        this.iconImg = iconImg;
-        this.backgroundImg = backgroundImg;
-        this.coverImg = coverImg;
-        this.titleImg = titleImg;
-    }
-
-    public ImageUtils(Image iconImg, Image backgroundImg, Image coverImg, Image titleImg, Image Usagi) {
-        this.iconImg = iconImg;
-        this.backgroundImg = backgroundImg;
-        this.coverImg = coverImg;
-        this.titleImg = titleImg;
-        this.Usagi = Usagi;
-    }
-
-    public ImageUtils(Image iconImg, Image backgroundImg, Image backgroundImg2, Image coverImg, Image titleImg, Image Usagi) {
-        this.iconImg = iconImg;
-        this.backgroundImg = backgroundImg;
-        this.backgroundImg2 = backgroundImg2;
-        this.coverImg = coverImg;
-        this.titleImg = titleImg;
-        this.Usagi = Usagi;
-    }
-
-    public ImageUtils(Image iconImg, Image backgroundImg, Image backgroundImg2, Image coverImg, Image titleImg, Image Usagi, Image explode) {
-        this.iconImg = iconImg;
-        this.backgroundImg = backgroundImg;
-        this.backgroundImg2 = backgroundImg2;
-        this.coverImg = coverImg;
-        this.titleImg = titleImg;
-        this.Usagi = Usagi;
-        this.explode = explode;
-    }
-
-    public ImageUtils(Image iconImg, Image backgroundImg, Image backgroundImg2, Image coverImg, Image titleImg, Image Usagi, Image explode, Image Enemy) {
+    public ImageUtils(Image iconImg, Image backgroundImg, Image backgroundImg2, Image coverImg, Image titleImg, Image Usagi, Image explode, Image enemy, Image uprightWorm, Image CreepWorm, Image bigWorm) {
         this.iconImg = iconImg;
         this.backgroundImg = backgroundImg;
         this.backgroundImg2 = backgroundImg2;
@@ -77,7 +44,11 @@ public class ImageUtils {
         this.Usagi = Usagi;
         this.explode = explode;
         this.enemy = enemy;
+        this.uprightWorm = uprightWorm;
+        this.CreepWorm = CreepWorm;
+        this.bigWorm = bigWorm;
     }
+
 
     /**
      * 获取
@@ -206,6 +177,59 @@ public class ImageUtils {
     public static void setEnemy(Image Enemy) {
         ImageUtils.enemy = Enemy;
     }
+
+    /**
+     * 获取
+     * @return uprightWorm
+     */
+    public static Image getUprightWorm() {
+        return uprightWorm;
+    }
+
+    /**
+     * 设置
+     * @param uprightWorm
+     */
+    public static void setUprightWorm(Image uprightWorm) {
+        ImageUtils.uprightWorm = uprightWorm;
+    }
+
+    /**
+     * 获取
+     * @return CreepWorm
+     */
+    public static Image getCreepWorm() {
+        return CreepWorm;
+    }
+
+    /**
+     * 设置
+     * @param CreepWorm
+     */
+    public static void setCreepWorm(Image CreepWorm) {
+        ImageUtils.CreepWorm = CreepWorm;
+    }
+
+    /**
+     * 获取
+     * @return bigWorm
+     */
+    public static Image getBigWorm() {
+        return bigWorm;
+    }
+
+    /**
+     * 设置
+     * @param bigWorm
+     */
+    public static void setBigWorm(Image bigWorm) {
+        ImageUtils.bigWorm = bigWorm;
+    }
+
+    /**
+     * 获取
+     * @return worm
+     */
 
     public String toString() {
         return "ImageUtils{iconImg = " + iconImg + ", backgroundImg = " + backgroundImg + ", coverImg = " + coverImg + "}";

@@ -1,7 +1,4 @@
-import JavaBean.Background;
-import JavaBean.Enemy;
-import JavaBean.Explode;
-import JavaBean.Usagi;
+import JavaBean.*;
 import Utils.ImageUtils;
 
 import javax.swing.*;
@@ -75,6 +72,8 @@ public class GameFrame extends JFrame{
                 addExplode();
                 addEnemy();
                 removeObj();
+                // 如果游戏失败，修改flag = 2
+                checkGame();
             }
             repaint();
             try {
@@ -97,7 +96,16 @@ public class GameFrame extends JFrame{
             iBuffer = createImage(this.getSize().width, this.getSize().height);
             gBuffer = iBuffer.getGraphics();
         }
+        gBuffer.setColor(Color.white);//设置初始界面为白色
+        //为了让界面看上去更好看，用一个线程休眠
+        if (count == 1) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
 
+            }
+}
         if (flag == 0) {
 
             background.paintSelf(gBuffer);
@@ -117,9 +125,21 @@ public class GameFrame extends JFrame{
             gBuffer.drawImage(background1.getImg(), background1.getX(), background1.getY(),null);
             gBuffer.drawImage(imageUtils.getCoverImg(),445,110,null);
             gBuffer.drawImage(imageUtils.getTitleImg(),435,390,null);
+        } else if (flag == 2) {
+            System.out.println("游戏失败");
         }
         g.drawImage(iBuffer, 0, 0, this);
         count++;//每重绘一次，就自增
+
+    }
+
+    private void checkGame() {
+        for (int i = 0; i < enemies.size(); i++) {
+            if (enemies.get(i).getRectangle().intersects(usagi.getRectangle())) {
+//                flag = 2;//修改为游戏失败状态
+//                System.out.println("游戏失败");
+            }
+        }
     }
 
     private void removeObj() {
@@ -142,7 +162,7 @@ public class GameFrame extends JFrame{
 //
                 if (enemies.get(j).getRectangle().intersects(explodeList.get(i).getRectangle())) {
                     explodeList.get(i).setX(1400);
-                    enemies.get(j).setX(-100);
+                    enemies.get(j).setX(-500);
                     //将子弹与敌人的坐标修改出去，后面再统一删除，不知道为啥直接删会越界
                 }
 
@@ -161,12 +181,19 @@ public class GameFrame extends JFrame{
     }
 
     private void addEnemy() {
-        if (count % 10 == 1) {
+        Random random = new Random();
+        if (count % 20 == 1) {
             // 对每一个敌人的纵坐标应该是要随机的
-            Random random = new Random();
             int y = 60 + random.nextInt(460);
 //            System.out.println(y);
-            enemies.add(new Enemy(1200,y,imageUtils.getEnemy(),61,60, 5));
+            enemies.add(new UprightWorm(1200,y,imageUtils.getUprightWorm(),61,60, 6));
+        } else if (count % 40 == 2) {
+            int y = 60 + random.nextInt(470);
+            enemies.add(new CreepWorm(1200, y, imageUtils.getCreepWorm(),61,45,5));
+        } else if (count % 500 == 3) {
+            int y = 0 + random.nextInt(400);
+            System.out.println(y);
+            enemies.add(new BigWorm(1200, y, imageUtils.getBigWorm(), 177, 200, 15));
         }
     }
 
