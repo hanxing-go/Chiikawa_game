@@ -11,6 +11,7 @@ public class Usagi extends GameObj{
 
     public Usagi(int x, int y, Image img, int height, int weight, int speed) {
         super(x, y, img, height, weight, speed);
+        System.out.println(height + " " + weight);
     }
 
 

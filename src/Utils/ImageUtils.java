@@ -11,6 +11,7 @@ public class ImageUtils {
     private static Image coverImg;
     private static Image titleImg;
     private static Image Usagi;
+    private static Image explode;
 
 
     public ImageUtils() {
@@ -21,6 +22,7 @@ public class ImageUtils {
         titleImg = Toolkit.getDefaultToolkit().getImage(".\\img\\Title1.png");
 
         Usagi = Toolkit.getDefaultToolkit().getImage(".\\img\\Usaqi.png");
+        explode = Toolkit.getDefaultToolkit().getImage(".\\img\\explode.png");
     }
 
 
@@ -52,6 +54,16 @@ public class ImageUtils {
         this.coverImg = coverImg;
         this.titleImg = titleImg;
         this.Usagi = Usagi;
+    }
+
+    public ImageUtils(Image iconImg, Image backgroundImg, Image backgroundImg2, Image coverImg, Image titleImg, Image Usagi, Image explode) {
+        this.iconImg = iconImg;
+        this.backgroundImg = backgroundImg;
+        this.backgroundImg2 = backgroundImg2;
+        this.coverImg = coverImg;
+        this.titleImg = titleImg;
+        this.Usagi = Usagi;
+        this.explode = explode;
     }
 
     /**
@@ -148,6 +160,22 @@ public class ImageUtils {
      */
     public static void setBackgroundImg2(Image backgroundImg2) {
         ImageUtils.backgroundImg2 = backgroundImg2;
+    }
+
+    /**
+     * 获取
+     * @return explode
+     */
+    public static Image getExplode() {
+        return explode;
+    }
+
+    /**
+     * 设置
+     * @param explode
+     */
+    public static void setExplode(Image explode) {
+        ImageUtils.explode = explode;
     }
 
     public String toString() {
