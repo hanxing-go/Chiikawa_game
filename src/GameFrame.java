@@ -73,6 +73,8 @@ public class GameFrame extends JFrame{
 
             if (flag == 0) {
                 addExplode();
+                addEnemy();
+                removeObj();
             }
             repaint();
             try {
@@ -120,17 +122,50 @@ public class GameFrame extends JFrame{
         count++;//每重绘一次，就自增
     }
 
+    private void removeObj() {
+        //两种情况删除
+        //1. 超出边界的时候删除
+        for (int i = 0; i < enemies.size(); i++) {
+            if (enemies.get(i).getX() < -60) {
+                enemies.remove(i);
+            }
+        }
+
+        for (int j = 0; j < explodeList.size(); j++) {
+
+            if (explodeList.get(j).getX() > 1200) {
+                explodeList.remove(j);//判断是否出界
+            }
+        }
+        for (int i = 0; i < explodeList.size(); i++) {
+            for (int j = 0; j < enemies.size(); j++) {
+//
+                if (enemies.get(j).getRectangle().intersects(explodeList.get(i).getRectangle())) {
+                    explodeList.get(i).setX(1400);
+                    enemies.get(j).setX(-100);
+                    //将子弹与敌人的坐标修改出去，后面再统一删除，不知道为啥直接删会越界
+                }
+
+            }
+
+        }
+    }
+
+
 
     private void addExplode() {
         if (count % 8 == 1) {
             explodeList.add(new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45, imageUtils.getExplode(),
                     10, 10, 20));
         }
+    }
+
+    private void addEnemy() {
         if (count % 10 == 1) {
             // 对每一个敌人的纵坐标应该是要随机的
             Random random = new Random();
             int y = 60 + random.nextInt(460);
-            System.out.println(y);
+//            System.out.println(y);
             enemies.add(new Enemy(1200,y,imageUtils.getEnemy(),61,60, 5));
         }
     }
