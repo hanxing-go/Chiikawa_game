@@ -12,7 +12,8 @@ import java.util.List;
 
 
 public class GameFrame extends JFrame{
-    private int flag = 1;
+
+    int x = 0;
     public GameFrame () {
         super("Chiikawa");
     }
@@ -25,12 +26,12 @@ public class GameFrame extends JFrame{
         this.setIconImage(ImageUtils.iconImg);                       //设置窗口图标
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);         //添加窗口关闭
         this.setVisible(true);                                       //窗口可视化
-        this.addMouse();                                            //添加鼠标监听事件
-        this.addKey();                                              //添加键盘监听
+        this.addMouse();                                             //添加鼠标监听事件
+        this.addKey();                                               //添加键盘监听
 
 
         while (true) {
-            if (flag == 0) {
+            if (ObjUtils.flag == 0) {
                 gameStart();
             }
             repaint();
@@ -62,7 +63,7 @@ public class GameFrame extends JFrame{
 
             }
 }
-        if (flag == 0) {
+        if (ObjUtils.flag == 0) {
 
             PaintUtils.paintBackground(gBuffer,ObjUtils.background, ObjUtils.background1);//绘制地图
             PaintUtils.paintPlayer(gBuffer, ObjUtils.usagi);//绘制游戏角色
@@ -71,20 +72,46 @@ public class GameFrame extends JFrame{
             PaintUtils.paintGameObj(gBuffer);//绘制道具
 
             //如果得分大于500 那么boss降临
-            if (ObjUtils.gameScore >= 0) {
+            if (ObjUtils.gameScore >= 250) {
                 ObjUtils.birdBoss.paintSelf(gBuffer);
             }
 
-        } else if (flag == 1) {
+        } else if (ObjUtils.flag == 1) {
 
             gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
             gBuffer.drawImage(ObjUtils.background.getImg(), ObjUtils.background.getX(), ObjUtils.background.getY(),null);
             gBuffer.drawImage(ObjUtils.background1.getImg(), ObjUtils.background1.getX(), ObjUtils.background1.getY(),null);
 
             gBuffer.drawImage(ImageUtils.coverImg,445,110,null);
-            gBuffer.drawImage(ImageUtils.titleImg,435,390,null);
-        } else if (flag == 2) {
-            System.out.println("游戏失败");
+            gBuffer.drawImage(ImageUtils.titleImg,435,460,null);
+        } else if (ObjUtils.flag == 2) {
+//            System.out.println("游戏失败");
+
+            if (this.x == 0) {
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                this.x = 1;
+            }
+            newgame();
+            gBuffer.drawImage(ImageUtils.lose,0,0,null);
+            gBuffer.drawImage(ImageUtils.titleImg,435,460,null);
+
+        } else if (ObjUtils.flag == 3) {
+            if (this.x == 0) {
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                this.x = 1;
+            }
+            newgame();
+            gBuffer.drawImage(ImageUtils.win,0,0,null);
+            gBuffer.drawImage(ImageUtils.titleImg,435,460,null);
+
         }
         g.drawImage(iBuffer, 0, 0, this);
 
@@ -96,23 +123,25 @@ public class GameFrame extends JFrame{
 
     }
     //绘制窗口，使用双缓存技术
-    private void checkGame() {
-        for (int i = 0; i < ObjUtils.enemies.size(); i++) {
-            if (ObjUtils.enemies.get(i).getRectangle().intersects(ObjUtils.usagi.getRectangle())) {
-//                flag = 2;//修改为游戏失败状态
-//                System.out.println("游戏失败");
-            }
-        }
-    }
+
 
     private void gameStart() {
         ObjUtils.addExplode();
         ObjUtils.addEnemy();
         ObjUtils.removeObj();
+        ObjUtils.checkGame();
     }
     //游戏开始
 
-
+    private void newgame() {
+        ObjUtils.removeAll();//清空所有
+//        ObjUtils.flag = 2;
+        ObjUtils.gameScore = 0;//分数要设置为0
+        ObjUtils.numEnemy = 0;//怪物数量要设置为0
+        ObjUtils.count = 0;//都设置为0;
+        ObjUtils.usagi.setX(100);
+        ObjUtils.usagi.setY(250);//回到初始位置
+    }
     private void addKey() {
         this.addKeyListener(new KeyAdapter() {
             @Override
@@ -120,7 +149,12 @@ public class GameFrame extends JFrame{
                 super.keyPressed(e);
                 int speed = 10;
                 if (e.getKeyChar() == ' ') {
-                    flag = flag ^ 1;
+                    if (ObjUtils.flag < 2) {
+                        ObjUtils.flag = ObjUtils.flag ^ 1;
+                    } else {
+                        ObjUtils.flag = 1;
+                        x = 0;
+                    }
                     repaint();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -152,12 +186,20 @@ public class GameFrame extends JFrame{
             }
         });
     }
+
+
+
     private void addMouse() {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                flag = 0;
+                if (ObjUtils.flag < 2) {
+                    ObjUtils.flag = ObjUtils.flag ^ 1;
+                } else {
+                    ObjUtils.flag = 1;
+                    x = 0;
+                }
                 repaint();
             }
         });
@@ -169,11 +211,11 @@ public class GameFrame extends JFrame{
                 //个人觉得跟着鼠标移动不太好，改为键盘移动
                 int x = e.getX();
                 int y = e.getY();
-                if (x >= ObjUtils.usagi.getWeight() /2  && x <= 1200 - ObjUtils.usagi.getWeight() / 2 && flag == 0) {
+                if (x >= ObjUtils.usagi.getWeight() /2  && x <= 1200 - ObjUtils.usagi.getWeight() / 2 && ObjUtils.flag == 0) {
                     ObjUtils.usagi.setX(e.getX() - ObjUtils.usagi.getWeight() / 2);
 
                 }
-                if (y >= ObjUtils.usagi.getHeight() && flag == 0) {
+                if (y >= ObjUtils.usagi.getHeight() && ObjUtils.flag == 0) {
                     ObjUtils.usagi.setY(e.getY() - ObjUtils.usagi.getHeight());
                 }
             }

@@ -22,4 +22,9 @@ public class BigWorm extends Enemy {
         }
         super.setY(super.getY() + speedY);
     }
+
+    @Override
+    public Rectangle getRectangle() {
+        return new Rectangle(getX() + 20, getY() + 20,150,150);
+    }
 }

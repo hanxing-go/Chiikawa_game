@@ -18,8 +18,11 @@ public class ImageUtils {
     public static Image bigWorm = Toolkit.getDefaultToolkit().getImage(".\\img\\bigworm.png");
     public static Image birdBoss = Toolkit.getDefaultToolkit().getImage(".\\img\\bossbird.png");
     public static Image birdBoss1 =Toolkit.getDefaultToolkit().getImage(".\\img\\bossbird1.png");
+    public static Image birdBoss2 = Toolkit.getDefaultToolkit().getImage(".\\img\\bossbird2.png");
 
     public static Image shit = Toolkit.getDefaultToolkit().getImage(".\\img\\shit.png");
     public static Image egg = Toolkit.getDefaultToolkit().getImage(".\\img\\egg.png");
+    public static Image lose = Toolkit.getDefaultToolkit().getImage(".\\img\\lose.png");
+    public static Image win = Toolkit.getDefaultToolkit().getImage(".\\img\\win.png");
 
 }
