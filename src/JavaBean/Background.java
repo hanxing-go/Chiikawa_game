@@ -16,6 +16,7 @@ public class Background extends GameObj{
 //        System.out.println(getX() + " " + getY());
         if (getX() == -2400) {
             setX(2400);
+            //达到地图无缝衔接的办法
         }
     }
 }

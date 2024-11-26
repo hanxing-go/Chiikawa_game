@@ -3,5 +3,6 @@ public class Main {
         GameFrame app = new GameFrame();
 
         app.initFrame();
+
     }
 }

@@ -13,20 +13,17 @@ public class GameFrame extends JFrame{
 
 
     private int flag = 1;
-    private ImageUtils imageUtils = new ImageUtils();
-    private Background background = new Background(0,0, imageUtils.getBackgroundImg2(),0,0,5);
-    private Background background1 = new Background(2400,0, imageUtils.getBackgroundImg2(),1,1,5);
-    private Usagi usagi = new Usagi(100,250,imageUtils.getUsagi(),
+    private Background background = new Background(0,0, ImageUtils.backgroundImg2,0,0,5);
+    private Background background1 = new Background(2400,0, ImageUtils.backgroundImg2,1,1,5);
+    private Usagi usagi = new Usagi(100,250,ImageUtils.Usagi,
             120,114,0);
 
-    private Explode explode = new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45,imageUtils.getExplode(),
+    private Explode explode = new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45,ImageUtils.explode,
             10,10, 2);
 
-    private List<Explode> explodeList = new ArrayList<>();// 批量添加子弹，创建队列集合
-
-//    private Enemy enemy = new Enemy(1200,250,imageUtils.getEnemy(),50,51, 5);
-    private List<Enemy> enemies = new ArrayList<>();
-    private BirdBoss birdBoss = new BirdBoss(1498,170,imageUtils.getBirdBoss(),100,298,2);
+    private static List<Explode> explodeList = new ArrayList<>();// 批量添加子弹，创建队列集合
+    public static List<Enemy> enemies = new ArrayList<>();
+    private BirdBoss birdBoss = new BirdBoss(1498,170,ImageUtils.birdBoss,100,298,2);
     private int numEnemy = 0;//统计生成的怪物的数量
     private int gameScore = 0;
     private int STAGE = 10;//阶段，由简单到难
@@ -53,7 +50,7 @@ public class GameFrame extends JFrame{
         this.setLocationRelativeTo(null);
         //设置窗口初始居中
 
-        Image icon = imageUtils.getIconImg();
+        Image icon = ImageUtils.iconImg;
         this.setIconImage(icon);
         //设置窗口图标
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,8 +127,8 @@ public class GameFrame extends JFrame{
             gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
             gBuffer.drawImage(background.getImg(), background.getX(), background.getY(),null);
             gBuffer.drawImage(background1.getImg(), background1.getX(), background1.getY(),null);
-            gBuffer.drawImage(imageUtils.getCoverImg(),445,110,null);
-            gBuffer.drawImage(imageUtils.getTitleImg(),435,390,null);
+            gBuffer.drawImage(ImageUtils.coverImg,445,110,null);
+            gBuffer.drawImage(ImageUtils.titleImg,435,390,null);
         } else if (flag == 2) {
             System.out.println("游戏失败");
         }
@@ -189,7 +186,7 @@ public class GameFrame extends JFrame{
                     {
                         enemies.get(j).setX(-500);
                         gameScore += enemies.get(j).getType();
-                        System.out.println(gameScore);
+//                        System.out.println(gameScore);
                     }
                 }
 
@@ -202,7 +199,7 @@ public class GameFrame extends JFrame{
 
     private void addExplode() {
         if (count % 8 == 1) {
-            explodeList.add(new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45, imageUtils.getExplode(),
+            explodeList.add(new Explode(usagi.getX() + usagi.getWeight() + 5, usagi.getY() + usagi.getWeight() - 45, ImageUtils.explode,
                     10, 10, 20));
         }
     }
@@ -213,28 +210,20 @@ public class GameFrame extends JFrame{
             // 对每一个敌人的纵坐标应该是要随机的
             int y = 60 + random.nextInt(460);
 //            System.out.println(y);
-            enemies.add(new UprightWorm(1200,y,imageUtils.getUprightWorm(),61,60, 6));
+            enemies.add(new UprightWorm(1200,y,ImageUtils.uprightWorm,61,60, 6));
             numEnemy++;
         } else if (count % (2 * STAGE) == 2) {
             int y = 60 + random.nextInt(470);
-            enemies.add(new CreepWorm(1200, y, imageUtils.getCreepWorm(),61,45,5));
+            enemies.add(new CreepWorm(1200, y, ImageUtils.CreepWorm,61,45,5));
 //            enemies.add(new BirdBoss(1498,250,ImageUtils.getBirdBoss(),200,298,5));
             numEnemy++;
         } else if (numEnemy % (5 * STAGE) == 0 && numEnemy != 0) {
             int y = 0 + random.nextInt(400);
             System.out.println(numEnemy);
-            enemies.add(new BigWorm(1200, y, imageUtils.getBigWorm(), 177, 200, 15));
+            enemies.add(new BigWorm(1200, y, ImageUtils.bigWorm, 177, 200, 15));
             numEnemy++;
         }
 
-        //阶段进化分数
-        double score = Math.pow(250 , 11 - STAGE);
-        if (numEnemy > score) {
-            if (STAGE > 1) {
-                STAGE /= 2;
-                System.out.println(STAGE);
-            }
-        }
     }
 
 
@@ -243,29 +232,36 @@ public class GameFrame extends JFrame{
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
+                int speed = 10;
                 if (e.getKeyChar() == ' ') {
                     flag = flag ^ 1;
-
-//                    if (flag == 0) {
-//                        Point p = getLocationOnScreen();
-//                        System.out.println(p.x + " " + p.y);
-//                        System.out.println(usagi.getX() + " " + usagi.getY());
-//                        System.out.println(p.x + usagi.getX());
-//                        System.out.println(p.y + usagi.getY());
-//
-//                        PointerInfo pointerInfo = MouseInfo.getPointerInfo();
-//                        Point mousePoint = pointerInfo.getLocation();
-//                        System.out.println(mousePoint.getX() +" "+ mousePoint.getY());
-////                        while (!(mousePoint.getX() == (p.x + usagi.getY()) * 1.0) && !(mousePoint.getY() == (p.x + usagi.getY()) * 1.0)) {
-////                            robot.mouseMove(p.x, p.y);
-//                        //非常危险的代码，慎用
-////                        }
-//                    }
-
                     repaint();
                 }
-                if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     System.exit(0);
+                }
+//                System.out.println(e.getKeyCode());
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    // 向左边移动，但是你得要判断角色是否超出边界
+                    if (usagi.getX() >= 0) {
+                        usagi.setX(usagi.getX() - speed);
+                    }
+                }
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    if (usagi.getX() < 1080) {
+                        usagi.setX(usagi.getX() + speed);
+                    }
+                }
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+//                    System.out.println(1);
+                    if (usagi.getY() >= 10) {
+                        usagi.setY(usagi.getY() - speed);
+                    }
+                }
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    if (usagi.getY() <= 470) {
+                        usagi.setY(usagi.getY() + speed);
+                    }
                 }
             }
         });
@@ -286,6 +282,7 @@ public class GameFrame extends JFrame{
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
+                //个人觉得跟着鼠标移动不太好，改为键盘移动
                 int x = e.getX();
                 int y = e.getY();
                 if (x >= usagi.getWeight() /2  && x <= 1200 - usagi.getWeight() / 2 && flag == 0) {
