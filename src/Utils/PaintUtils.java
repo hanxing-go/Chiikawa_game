@@ -25,4 +25,10 @@ public class PaintUtils {
         background.paintSelf(g);
         background1.paintSelf(g);
     }
+
+    public static void paintGameObj(Graphics g) {
+        for (int i = 0; i < ObjUtils.gameProps.size(); i++) {
+            ObjUtils.gameProps.get(i).paintSelf(g);
+        }
+    }
 }

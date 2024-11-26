@@ -16,7 +16,7 @@ public class GameFrame extends JFrame{
     public GameFrame () {
         super("Chiikawa");
     }
-    
+
     public void initFrame () {
 
         this.setSize(1200,580);                         //设定好高宽
@@ -68,9 +68,10 @@ public class GameFrame extends JFrame{
             PaintUtils.paintPlayer(gBuffer, ObjUtils.usagi);//绘制游戏角色
             PaintUtils.paintEnemies(gBuffer);//绘制敌人
             PaintUtils.paintExplode(gBuffer);//绘制子弹
+            PaintUtils.paintGameObj(gBuffer);//绘制道具
 
             //如果得分大于500 那么boss降临
-            if (ObjUtils.gameScore >= 10) {
+            if (ObjUtils.gameScore >= 0) {
                 ObjUtils.birdBoss.paintSelf(gBuffer);
             }
 

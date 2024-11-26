@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class BigWorm extends Enemy {
-    private int speedY = 8;
+    private int speedY;
     public BigWorm(int x, int y, Image img, int height, int weight, int speed) {
         super(x, y, img, height, weight, speed);
         Random random = new Random();

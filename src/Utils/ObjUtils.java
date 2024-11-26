@@ -2,14 +2,16 @@ package Utils;
 
 import JavaBean.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class ObjUtils {
     public static List<Enemy> enemies = new ArrayList<>();
+    public static List<GameProp> gameProps = new ArrayList<>();
     public static List<Explode> explodeList = new ArrayList<>();// 批量添加子弹，创建队列集合
-    public static BirdBoss birdBoss = new BirdBoss(1498,170,ImageUtils.birdBoss,100,298,2);
+    public static BirdBoss birdBoss = new BirdBoss(1498,170,ImageUtils.birdBoss,100,298,0);
 
     public static Usagi usagi = new Usagi(100,250,ImageUtils.Usagi,
             120,114,0,5,1,3);
@@ -35,7 +37,7 @@ public class ObjUtils {
         for (int j = 0; j < explodeList.size(); j++) {
 
             //判断是否与boss相撞
-            if (birdBoss.getX() <= 800 &&explodeList.get(j).getRectangle().intersects((birdBoss.getRectangle()))) {
+            if (birdBoss.getX() <= 800 && checkIntersect(explodeList.get(j).getRectangle(), birdBoss.getRectangle())) {
                 birdBoss.setHP(birdBoss.getHP() - 1);
                 explodeList.get(j).setX(1400);
 //                System.out.println(birdBoss.getHP());
@@ -51,7 +53,7 @@ public class ObjUtils {
 
             for (int j = 0; j < enemies.size(); j++) {
 //
-                if (enemies.get(j).getRectangle().intersects(explodeList.get(i).getRectangle())) {
+                if (checkIntersect(enemies.get(j).getRectangle(), explodeList.get(i).getRectangle())) {
                     explodeList.get(i).setX(1400);
                     enemies.get(j).setHP(enemies.get(j).getHP() - 1);
                     //将子弹与敌人的坐标修改出去，后面再统一删除，不知道为啥直接删会越界
@@ -89,12 +91,20 @@ public class ObjUtils {
             enemies.add(new CreepWorm(1200, y, ImageUtils.CreepWorm,61,45,5));
 //            enemies.add(new BirdBoss(1498,250,ImageUtils.getBirdBoss(),200,298,5));
             numEnemy++;
-        } else if (numEnemy % (5 * STAGE) == 0 && numEnemy != 0) {
+//        } else if (numEnemy % (5 * STAGE) == 0 && numEnemy != 0) {
+        }
+        if (numEnemy % 20 == 0) {
             int y = 0 + random.nextInt(400);
-            System.out.println(numEnemy);
+//            System.out.println(numEnemy);
             enemies.add(new BigWorm(1200, y, ImageUtils.bigWorm, 177, 200, 15));
             numEnemy++;
         }
 
     }
+
+    // 写一个函数判断两个物体是否相撞，来提高代码可读性
+    private static boolean checkIntersect(Rectangle r1, Rectangle r2) {
+        return r1.intersects(r2);
+    }
+
 }

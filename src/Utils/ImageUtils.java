@@ -17,6 +17,7 @@ public class ImageUtils {
     public static Image CreepWorm = Toolkit.getDefaultToolkit().getImage(".\\img\\creepworm.png");
     public static Image bigWorm = Toolkit.getDefaultToolkit().getImage(".\\img\\bigworm.png");
     public static Image birdBoss = Toolkit.getDefaultToolkit().getImage(".\\img\\bossbird.png");
+    public static Image birdBoss1 =Toolkit.getDefaultToolkit().getImage(".\\img\\bossbird1.png");
 
     public static Image shit = Toolkit.getDefaultToolkit().getImage(".\\img\\shit.png");
     public static Image egg = Toolkit.getDefaultToolkit().getImage(".\\img\\egg.png");
