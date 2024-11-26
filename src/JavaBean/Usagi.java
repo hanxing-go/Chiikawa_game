@@ -2,18 +2,10 @@ package JavaBean;
 
 import java.awt.*;
 
-public class Usagi extends GameObj{
-
-
-
-    public Usagi() {
+public class Usagi extends GamePlayer{
+    public Usagi(int x, int y, Image img, int height, int weight, int speed, int hp, int explodenum, int skillcount) {
+        super(x, y, img, height, weight, speed, hp, explodenum, skillcount);
     }
-
-    public Usagi(int x, int y, Image img, int height, int weight, int speed) {
-        super(x, y, img, height, weight, speed);
-        System.out.println(height + " " + weight);
-    }
-
 
     @Override
     public void paintSelf(Graphics g) {
