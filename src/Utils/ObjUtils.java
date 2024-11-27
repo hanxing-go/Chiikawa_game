@@ -1,11 +1,9 @@
 package Utils;
 
 import JavaBean.*;
-import JavaBean.Enemy.Worm.BigWorm;
+import JavaBean.Enemy.Worm.*;
 import JavaBean.Enemy.Boss.BirdBoss;
-import JavaBean.Enemy.Worm.CreepWorm;
 import JavaBean.Enemy.Enemy;
-import JavaBean.Enemy.Worm.UprightWorm;
 import JavaBean.Explode.Explode;
 import JavaBean.Player.Eight;
 import JavaBean.Player.GamePlayer;
@@ -191,7 +189,7 @@ public class ObjUtils {
                     enemies.get(j).setHP(enemies.get(j).getHP() - 1);
                     //将子弹与敌人的坐标修改出去，后面再统一删除，不知道为啥直接删会越界
                     //如果生命值小于等于0则
-                    if (enemies.get(j).getHP() <= 0)
+                    if (enemies.get(j).getHP() < 0)
                     {
                         enemies.get(j).setX(-2000);
                         gameScore += enemies.get(j).getType();
@@ -227,14 +225,24 @@ public class ObjUtils {
             // 对每一个敌人的纵坐标应该是要随机的
             int y = 60 + random.nextInt(460);
 //            System.out.println(y);
+            System.out.println(y);
             enemies.add(new UprightWorm(1200,y,ImageUtils.uprightWorm,61,60, 6));
             numEnemy++;
         } else if (count % (2 * STAGE) == 2) {
             int y = 60 + random.nextInt(470);
-            enemies.add(new CreepWorm(1200, y, ImageUtils.CreepWorm,61,45,5));
+            if (y % 3 == 1){
+                enemies.add(new CreepWorm(1200, y, ImageUtils.CreepWorm,45,61,5));
+            } else if (y % 3 == 2){
+                enemies.add(new RedWorm(1200,y,ImageUtils.redWorm,66,60, 6));
+            } else {
+                enemies.add(new RedWorm(1200,y,ImageUtils.greenWorm,66,60, 6));
+            }
 //            enemies.add(new BirdBoss(1498,250,ImageUtils.getBirdBoss(),200,298,5));
             numEnemy++;
-//        } else if (numEnemy % (5 * STAGE) == 0 && numEnemy != 0) {
+        } else if (count % (5 * STAGE) == 3) {
+            int y = 60 + random.nextInt(450);
+            enemies.add(new FishWorm(1200, y, ImageUtils.FishWorm, 88,70,3));
+            numEnemy++;
         }
         if (numEnemy % 20 == 0) {
             int y = 0 + random.nextInt(400);
