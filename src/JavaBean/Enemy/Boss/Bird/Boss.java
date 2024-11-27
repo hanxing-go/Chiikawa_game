@@ -1,10 +1,10 @@
-package JavaBean;
+package JavaBean.Enemy.Boss.Bird;
+
+import JavaBean.Enemy.Enemy;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Boss extends Enemy{
+public class Boss extends Enemy {
     private int speedy;
 
     public Boss(int x, int y, Image img, int height, int weight, int speed) {

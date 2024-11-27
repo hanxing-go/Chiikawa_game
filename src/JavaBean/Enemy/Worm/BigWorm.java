@@ -1,4 +1,6 @@
-package JavaBean;
+package JavaBean.Enemy.Worm;
+
+import JavaBean.Enemy.Enemy;
 
 import java.awt.*;
 import java.util.Random;

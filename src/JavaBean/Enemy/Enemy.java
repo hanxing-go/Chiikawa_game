@@ -1,8 +1,10 @@
-package JavaBean;
+package JavaBean.Enemy;
+
+import JavaBean.GameObj;
 
 import java.awt.*;
 
-public class Enemy extends GameObj{
+public class Enemy extends GameObj {
     private int HP;
     private int Type;
     public Enemy(int x, int y, Image img, int height, int weight, int speed) {

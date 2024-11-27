@@ -1,4 +1,4 @@
-package JavaBean;
+package JavaBean.Prop;
 
 import java.awt.*;
 

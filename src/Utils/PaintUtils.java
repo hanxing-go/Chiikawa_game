@@ -1,13 +1,19 @@
 package Utils;
 
 import JavaBean.Background;
-import JavaBean.GamePlayer;
+import JavaBean.Player.GamePlayer;
 
 import java.awt.*;
 
 public class PaintUtils {
-    public static void paintPlayer(Graphics g, GamePlayer player) {
-        player.paintSelf(g);
+
+    public static void paintPlayer(Graphics g) {
+//        player.paintSelf(g);
+
+        //如果这个时候有协助角色加入，也要画出来
+        for (int i = 0; i < ObjUtils.gamePlayers.size(); i++) {
+            ObjUtils.gamePlayers.get(i).paintSelf(g);
+        }
     }
     public static void paintExplode(Graphics g) {
         for (int i = 0; i < ObjUtils.explodeList.size(); i++) {

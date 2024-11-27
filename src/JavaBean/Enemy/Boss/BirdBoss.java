@@ -1,14 +1,15 @@
-package JavaBean;
+package JavaBean.Enemy.Boss;
 
+import JavaBean.Enemy.Boss.Bird.Egg;
+import JavaBean.Enemy.Boss.Bird.Boss;
+import JavaBean.Prop.Shit;
 import Utils.ImageUtils;
 import Utils.ObjUtils;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-public class BirdBoss extends Boss{
+public class BirdBoss extends Boss {
     private int second = 0;
     private int[] behavior_probability = {1,1,0,1,1,2,2,2,3,0};
     private Random r = new Random();

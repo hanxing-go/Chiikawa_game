@@ -1,8 +1,10 @@
-package JavaBean;
+package JavaBean.Player;
+
+import JavaBean.GameObj;
 
 import java.awt.*;
 
-public class GamePlayer extends GameObj{
+public class GamePlayer extends GameObj {
     //相比GameObj应该多如下属性
     //1. HP
     private int hp;
@@ -12,6 +14,8 @@ public class GamePlayer extends GameObj{
     private int skillcount;
     //4. 子弹伤害
     private int damage;
+    private Image explode;
+    private int type;
 
     public GamePlayer(int x, int y, Image img, int height, int weight, int speed, int hp, int explodenum, int skillcount, int damage) {
         super(x, y, img, height, weight, speed);
@@ -20,6 +24,7 @@ public class GamePlayer extends GameObj{
         this.skillcount = skillcount;
         this.damage = damage;
     }
+
 
 
     /**
@@ -88,5 +93,37 @@ public class GamePlayer extends GameObj{
 
     public String toString() {
         return "GamePlayer{hp = " + hp + ", explodenum = " + explodenum + ", skillcount = " + skillcount + ", damage = " + damage + "}";
+    }
+
+    /**
+     * 获取
+     * @return explode
+     */
+    public Image getExplode() {
+        return explode;
+    }
+
+    /**
+     * 设置
+     * @param explode
+     */
+    public void setExplode(Image explode) {
+        this.explode = explode;
+    }
+
+    /**
+     * 获取
+     * @return type
+     */
+    public int getType() {
+        return type;
+    }
+
+    /**
+     * 设置
+     * @param type
+     */
+    public void setType(int type) {
+        this.type = type;
     }
 }

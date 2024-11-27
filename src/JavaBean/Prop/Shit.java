@@ -1,4 +1,6 @@
-package JavaBean;
+package JavaBean.Prop;
+
+import JavaBean.Prop.GameProp;
 
 import java.awt.*;
 

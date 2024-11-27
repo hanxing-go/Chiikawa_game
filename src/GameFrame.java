@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.util.*;
 import java.util.List;
 
@@ -52,8 +54,9 @@ public class GameFrame extends JFrame{
             //如果没有缓冲对象，则先创立一个缓冲对象
             iBuffer = createImage(this.getSize().width, this.getSize().height);
             gBuffer = iBuffer.getGraphics();
+            gBuffer.setColor(Color.white);//设置初始界面为白色
+
         }
-        gBuffer.setColor(Color.white);//设置初始界面为白色
         //为了让界面看上去更好看，用一个线程休眠
         if (ObjUtils.count == 1) {
             try {
@@ -66,7 +69,7 @@ public class GameFrame extends JFrame{
         if (ObjUtils.flag == 0) {
 
             PaintUtils.paintBackground(gBuffer,ObjUtils.background, ObjUtils.background1);//绘制地图
-            PaintUtils.paintPlayer(gBuffer, ObjUtils.usagi);//绘制游戏角色
+            PaintUtils.paintPlayer(gBuffer);//绘制游戏角色
             PaintUtils.paintEnemies(gBuffer);//绘制敌人
             PaintUtils.paintExplode(gBuffer);//绘制子弹
             PaintUtils.paintGameObj(gBuffer);//绘制道具
@@ -121,13 +124,17 @@ public class GameFrame extends JFrame{
             ObjUtils.count = 0;
         }
 
+
+
     }
     //绘制窗口，使用双缓存技术
+
 
 
     private void gameStart() {
         ObjUtils.addExplode();
         ObjUtils.addEnemy();
+        ObjUtils.addGamePlayer();
         ObjUtils.removeObj();
         ObjUtils.checkGame();
     }
@@ -139,8 +146,10 @@ public class GameFrame extends JFrame{
         ObjUtils.gameScore = 0;//分数要设置为0
         ObjUtils.numEnemy = 0;//怪物数量要设置为0
         ObjUtils.count = 0;//都设置为0;
-        ObjUtils.usagi.setX(100);
-        ObjUtils.usagi.setY(250);//回到初始位置
+        // 创建角色的标记要重新归0
+        ObjUtils.flagjiy2 = 0;
+        ObjUtils.flageight2 = 0;
+        ObjUtils.flagusaqi2 = 0;
     }
     private void addKey() {
         this.addKeyListener(new KeyAdapter() {
@@ -160,29 +169,29 @@ public class GameFrame extends JFrame{
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     System.exit(0);
                 }
-//                System.out.println(e.getKeyCode());
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    // 向左边移动，但是你得要判断角色是否超出边界
-                    if (ObjUtils.usagi.getX() >= 0) {
-                        ObjUtils.usagi.setX(ObjUtils.usagi.getX() - speed);
-                    }
-                }
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    if (ObjUtils.usagi.getX() < 1080) {
-                        ObjUtils.usagi.setX(ObjUtils.usagi.getX() + speed);
-                    }
-                }
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-//                    System.out.println(1);
-                    if (ObjUtils.usagi.getY() >= 10) {
-                        ObjUtils.usagi.setY(ObjUtils.usagi.getY() - speed);
-                    }
-                }
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    if (ObjUtils.usagi.getY() <= 470) {
-                        ObjUtils.usagi.setY(ObjUtils.usagi.getY() + speed);
-                    }
-                }
+//                 先不考虑键盘移动了
+//                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+//                    // 向左边移动，但是你得要判断角色是否超出边界
+//                    if (ObjUtils.usagi.getX() >= 0) {
+//                        ObjUtils.usagi.setX(ObjUtils.usagi.getX() - speed);
+//                    }
+//                }
+//                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+//                    if (ObjUtils.usagi.getX() < 1080) {
+//                        ObjUtils.usagi.setX(ObjUtils.usagi.getX() + speed);
+//                    }
+//                }
+//                if (e.getKeyCode() == KeyEvent.VK_UP) {
+////                    System.out.println(1);
+//                    if (ObjUtils.usagi.getY() >= 10) {
+//                        ObjUtils.usagi.setY(ObjUtils.usagi.getY() - speed);
+//                    }
+//                }
+//                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+//                    if (ObjUtils.usagi.getY() <= 470) {
+//                        ObjUtils.usagi.setY(ObjUtils.usagi.getY() + speed);
+//                    }
+//                }
             }
         });
     }
@@ -211,13 +220,35 @@ public class GameFrame extends JFrame{
                 //个人觉得跟着鼠标移动不太好，改为键盘移动
                 int x = e.getX();
                 int y = e.getY();
-                if (x >= ObjUtils.usagi.getWeight() /2  && x <= 1200 - ObjUtils.usagi.getWeight() / 2 && ObjUtils.flag == 0) {
-                    ObjUtils.usagi.setX(e.getX() - ObjUtils.usagi.getWeight() / 2);
 
+                for (int i = 0; i < ObjUtils.gamePlayers.size(); i++) {
+                    if (i == 0) {
+                        if (x >= ObjUtils.gamePlayers.get(i).getWeight() /2
+                                && x <= 1200 - ObjUtils.gamePlayers.get(i).getWeight() / 2 &&
+                                ObjUtils.flag == 0) {
+                            x = e.getX() - ObjUtils.gamePlayers.get(i).getWeight() / 2;
+                            ObjUtils.gamePlayers.get(i).setX(x);
+                        }
+                        if (y >= ObjUtils.gamePlayers.get(i).getHeight() && ObjUtils.flag == 0) {
+                            y = e.getY() - ObjUtils.gamePlayers.get(i).getHeight();
+                            ObjUtils.gamePlayers.get(i).setY(y);
+                        }
+                    }
+
+                    if (i == 1) {
+                        x = ObjUtils.gamePlayers.get(0).getX();
+                        y = ObjUtils.gamePlayers.get(0).getY();
+
+                        ObjUtils.gamePlayers.get(1).setX(x - 60);
+                        ObjUtils.gamePlayers.get(1).setY(y - 80);
+                    }
+
+                    if (i == 2) {
+                        ObjUtils.gamePlayers.get(2).setX(x - 60);
+                        ObjUtils.gamePlayers.get(2).setY(y + 80);
+                    }
                 }
-                if (y >= ObjUtils.usagi.getHeight() && ObjUtils.flag == 0) {
-                    ObjUtils.usagi.setY(e.getY() - ObjUtils.usagi.getHeight());
-                }
+
             }
         });
     }

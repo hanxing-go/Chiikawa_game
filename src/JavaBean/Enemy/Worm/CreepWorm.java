@@ -1,8 +1,10 @@
-package JavaBean;
+package JavaBean.Enemy.Worm;
+
+import JavaBean.Enemy.Enemy;
 
 import java.awt.*;
 
-public class CreepWorm extends Enemy{
+public class CreepWorm extends Enemy {
     public CreepWorm(int x, int y, Image img, int height, int weight, int speed) {
         super(x, y, img, height, weight, speed);
         super.setHP(1);
