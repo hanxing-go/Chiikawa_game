@@ -5,9 +5,9 @@ import JavaBean.Enemy.Enemy;
 import java.awt.*;
 
 public class UprightWorm extends Enemy {
-    public UprightWorm(int x, int y, Image img, int height, int weight, int speed) {
+    public UprightWorm(int x, int y, Image img, int height, int weight, int speed, int blood) {
         super(x, y, img, height, weight, speed);
-        super.setHP(2);
+        super.setHP(2 * blood);
         super.setType(2);
     }
 }

@@ -12,14 +12,14 @@ import java.util.Random;
 
 public class DragonBoss extends Boss {
     private int second = 0;
-    private int[] behavior_probability = {1,1,2,1,1,2,2,0,3,3};
+    private int[] behavior_probability = {1,1,2,2,1,2,2,0,3,3};
     private Random r = new Random();
     private int crashflag = 0;//设置一个冲撞标记
 
 
     public DragonBoss(int x, int y, Image img, int height, int weight, int speed) {
         super(x, y, img, height, weight, speed);
-        super.setHP(800);
+        super.setHP(1000);
         super.setType(250);
         super.setSpeedy(5);
         super.setBosstype(2);
@@ -94,8 +94,8 @@ public class DragonBoss extends Boss {
         int speed = r.nextInt(5) + 8;
         int speedY = r.nextInt(5) + 8;
         if (behavior % 2 ==  0) {
-            ObjUtils.enemies.add(new Brother(x1, y1, ImageUtils.brother,100,65, speed, speedY, 15));
-            ObjUtils.enemies.add(new Brother(x2, y2, ImageUtils.brother,100,65, speed, speedY, 15));
+            ObjUtils.enemies.add(new Brother(x1, y1, ImageUtils.brother,100,65, speed, speedY, 10));
+            ObjUtils.enemies.add(new Brother(x2, y2, ImageUtils.brother,100,65, speed, speedY, 10));
         } else {
             ObjUtils.enemies.add(new Brother(x1, y1, ImageUtils.brother1,100,65, speed, speedY, 20));
             ObjUtils.enemies.add(new Brother(x2, y2, ImageUtils.brother1,100,65, speed, speedY, 20));

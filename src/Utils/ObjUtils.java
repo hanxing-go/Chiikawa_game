@@ -43,11 +43,11 @@ public class ObjUtils {
     }
 
     public static void removeAll() {
-        enemies.clear();
-        explodeList.clear();
-        gameProps.clear();
-        gameProps.clear();
-        boss.clear();
+        enemies.clear();    //清除敌人
+        explodeList.clear();//清除子弹
+        gameProps.clear();  //清除道具
+        gamePlayers.clear();//清除角色
+        boss.clear();       //清除boss
     }
     public static void addObj() {
         addEnemy();
@@ -76,7 +76,7 @@ public class ObjUtils {
             boss.add(new BirdBoss(1498,170,ImageUtils.birdBoss,100,298,0));
             flagBird = 1;
         }
-        if (gameScore > 0 && flagDragon == 0) {
+        if (gameScore > 1500 && flagDragon == 0) {
             boss.add(new DragonBoss(1500, 200, ImageUtils.bossX, 232, 210, 0));
             flagDragon = 1;
         }
@@ -90,6 +90,7 @@ public class ObjUtils {
                 switch (boss.get(i).getBosstype()){
                     case 1:
                         flag = 3;
+                        STAGE /= 2;
                         break;
                     case 2:
                         flag = 4;
@@ -103,7 +104,8 @@ public class ObjUtils {
         // 添加道具应该是随机的
         Random random = new Random();
         int type = random.nextInt(21);
-        int[] proparry = new int[]{8, 0, 3, 2, 7, 0, 2, 2, 11, 5, 12, 12, 3, 2, 11, 2, 2, 11, 11, 5, 0, 0, 0};
+//        int[] proparry = new int[]{8, 0, 3, 2, 7, 0, 2, 2, 11, 5, 12, 12, 3, 2, 11, 2, 2, 11, 11, 5, 0, 0, 0};
+        int[] proparry = new int[]{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
 
         int y = 45 + random.nextInt(500);
 
@@ -396,27 +398,32 @@ public class ObjUtils {
         }
     }
     public static void addEnemy() {
+        // 设置血条倍率
+        int blood = 1;
+        if (STAGE != 15) {
+            blood = 3;
+        }
         Random random = new Random();
         if (count % (3 * STAGE) == 1) {
             // 对每一个敌人的纵坐标应该是要随机的
             int y = 60 + random.nextInt(460);
 //            System.out.println(y);
-            enemies.add(new UprightWorm(1200,y,ImageUtils.uprightWorm,61,60, 6));
+            enemies.add(new UprightWorm(1200,y,ImageUtils.uprightWorm,61,60, 6, blood));
             numEnemy++;
         } else if (count % (2 * STAGE) == 2) {
             int y = 60 + random.nextInt(470);
             if (y % 3 == 1){
-                enemies.add(new CreepWorm(1200, y, ImageUtils.CreepWorm,45,61,5));
+                enemies.add(new CreepWorm(1200, y, ImageUtils.CreepWorm,45,61,5, blood));
             } else if (y % 3 == 2){
-                enemies.add(new RedWorm(1200,y,ImageUtils.redWorm,66,60, 6));
+                enemies.add(new RedWorm(1200,y,ImageUtils.redWorm,66,60, 6, blood));
             } else {
-                enemies.add(new RedWorm(1200,y,ImageUtils.greenWorm,66,60, 6));
+                enemies.add(new RedWorm(1200,y,ImageUtils.greenWorm,66,60, 6, blood));
             }
 //            enemies.add(new BirdBoss(1498,250,ImageUtils.getBirdBoss(),200,298,5));
             numEnemy++;
         } else if (count % (5 * STAGE) == 3) {
             int y = 60 + random.nextInt(450);
-            enemies.add(new FishWorm(1200, y, ImageUtils.FishWorm, 88,70,3));
+            enemies.add(new FishWorm(1200, y, ImageUtils.FishWorm, 88,70,3, blood));
             numEnemy++;
         }
         if (numEnemy % 20 == 0) {

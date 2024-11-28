@@ -57,4 +57,6 @@ public static Image explode = Toolkit.getDefaultToolkit().getImage(".\\img\\expl
     public static Image meteorite1 = Toolkit.getDefaultToolkit().getImage(".\\img\\meteorite1.png");
     public static Image brother = Toolkit.getDefaultToolkit().getImage(".\\img\\brother.png");
     public static Image brother1 = Toolkit.getDefaultToolkit().getImage(".\\img\\redbrother.png");
+    public static Image stopImg = Toolkit.getDefaultToolkit().getImage(".\\img\\stop.png");
+    public static Image win1 = Toolkit.getDefaultToolkit().getImage(".\\img\\win2.png");
 }

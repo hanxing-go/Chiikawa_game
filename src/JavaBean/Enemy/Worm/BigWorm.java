@@ -11,7 +11,7 @@ public class BigWorm extends Enemy {
         super(x, y, img, height, weight, speed);
         Random random = new Random();
         this.speedY = random.nextInt(10);
-        super.setHP(5);
+        super.setHP(25);
         super.setType(5);
     }
 

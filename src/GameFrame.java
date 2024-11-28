@@ -17,7 +17,6 @@ import java.util.List;
 
 public class GameFrame extends JFrame{
 
-    int x = 0;
     public GameFrame () {
         super("Chiikawa");
     }
@@ -70,44 +69,40 @@ public class GameFrame extends JFrame{
 }
         if (ObjUtils.flag == 0) {// 游戏进行
             PaintUtils.paintAll(gBuffer, ObjUtils.background, ObjUtils.background1);
-        } else if (ObjUtils.flag == 1) {//游戏暂停
-
+        } else if (ObjUtils.flag == 1) {//游戏还未开始
             gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
             gBuffer.drawImage(ObjUtils.background.getImg(), ObjUtils.background.getX(), ObjUtils.background.getY(),null);
             gBuffer.drawImage(ObjUtils.background1.getImg(), ObjUtils.background1.getX(), ObjUtils.background1.getY(),null);
 
             gBuffer.drawImage(ImageUtils.coverImg,445,110,null);
             gBuffer.drawImage(ImageUtils.titleImg,435,460,null);
-        } else if (ObjUtils.flag == 2) {
-//            System.out.println("游戏失败");
+        } else if (ObjUtils.flag == 2) {// 游戏失败
 
-            if (this.x == 0) {
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                this.x = 1;
-            }
+//            try {
+//                Thread.sleep(800);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
             newgame();
             gBuffer.drawImage(ImageUtils.lose,0,0,null);
             gBuffer.drawImage(ImageUtils.titleImg,435,460,null);
 
         } else if (ObjUtils.flag == 3) {//击败第一个boss
-            if (this.x == 0) {
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                this.x = 1;
-            }
+
+//            try {
+//                Thread.sleep(800);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
             continueGame();// 这里有清除所有敌人与子弹
             gBuffer.drawImage(ImageUtils.win,0,0,null);
             gBuffer.drawImage(ImageUtils.titleImg,435,460,null);
 
-        } else if (ObjUtils.flag) {//击败第二个boss
-
+        } else if (ObjUtils.flag == 4) {//击败第二个boss
+            gBuffer.drawImage(ImageUtils.win1, 0, 0, null);
+            newgame();//重新开始游戏
+        } else if (ObjUtils.flag == 5) {
+            gBuffer.drawImage(ImageUtils.stopImg, 0, 0, null);
         }
 
 
@@ -142,8 +137,11 @@ public class GameFrame extends JFrame{
         ObjUtils.numEnemy = 0;//怪物数量要设置为0
         ObjUtils.count = 0;//都设置为0;
         // 创建角色的标记要重新归0
+        ObjUtils.flagjiy1 = 0;
         ObjUtils.flagjiy2 = 0;
+        ObjUtils.flageight1 = 0;
         ObjUtils.flageight2 = 0;
+        ObjUtils.flagusaqi1 = 0;
         ObjUtils.flagusaqi2 = 0;
         // boss要设置为0
         ObjUtils.flagBird = 0;
@@ -159,11 +157,16 @@ public class GameFrame extends JFrame{
                 super.keyPressed(e);
                 int speed = 10;
                 if (e.getKeyChar() == ' ') {
-                    if (ObjUtils.flag < 2) {
-                        ObjUtils.flag = ObjUtils.flag ^ 1;
-                    } else {
+                    if (ObjUtils.flag == 1) {// 如果游戏此时是还未开始，那么游戏开始
+                        ObjUtils.flag = 0;
+                    } else if (ObjUtils.flag == 2){//如果游戏失败，就回到开始界面
                         ObjUtils.flag = 1;
-                        x = 0;
+                    } else if (ObjUtils.flag == 5) {//如果游戏室暂停，则游戏继续
+                      ObjUtils.flag = 0;
+                    } else if (ObjUtils.flag == 4) {//打败了第二个boss，游戏结束
+                        ObjUtils.flag = 1;
+                    } else{
+                        ObjUtils.flag = 5;//其他情况全都是变为暂停
                     }
                     repaint();
                 }
@@ -183,11 +186,14 @@ public class GameFrame extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (ObjUtils.flag < 2) {
-                    ObjUtils.flag = ObjUtils.flag ^ 1;
-                } else {
+                if (ObjUtils.flag == 2) {//游戏失败回到开始界面
                     ObjUtils.flag = 1;
-                    x = 0;
+                } else if (ObjUtils.flag == 4){
+                    //打败了第二个boss。游戏结束
+                    ObjUtils.flag = 1;
+                }else {
+                    //其余情况全都是游戏继续
+                    ObjUtils.flag = 0;
                 }
                 repaint();
             }
