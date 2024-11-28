@@ -11,6 +11,7 @@ public class Usagi extends GamePlayer {
     public Usagi(int x, int y, Image img, int height, int weight, int speed, int hp, int explodenum, int skillcount) {
         super(x, y, img, height, weight, speed, hp, explodenum, skillcount, 1);
         super.setType(2);
+        super.setMaxexplodenum(2);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package JavaBean.Prop;
 
 import java.awt.*;
+import java.awt.font.ImageGraphicAttribute;
 
 public class GameProp {
     //游戏道具类
@@ -19,16 +20,20 @@ public class GameProp {
     private int weight;
     private int height;
     private Image img;
+    private Image underImg;
     private int type;
     private int speed;
     private int impacthp;
     private int impctspeed;
     private int impactNum;
+    private int impactDamage;
+    private int vis = 0;
 
     public GameProp() {
     }
 
-    public GameProp(int x, int y, int weight, int height, Image img, int type, int speed, int impacthp, int impctspeed, int impactNum) {
+    public GameProp(int x, int y, int weight, int height, Image img, Image underImg,
+                    int type, int speed, int impacthp, int impctspeed, int impactNum, int impactDamage) {
         this.x = x;
         this.y = y;
         this.weight = weight;
@@ -39,13 +44,17 @@ public class GameProp {
         this.impacthp = impacthp;
         this.impctspeed = impctspeed;//这个是一个倍率
         this.impactNum = impactNum;
+        this.impactDamage = impactDamage;
+        this.underImg = underImg;
     }
+
 
 
     public void paintSelf(Graphics g) {
 
         //重绘自己
         g.drawImage(this.img,this.x,this.y,null);
+        this.setX(this.getX() - this.getSpeed());
     }
 
     public Rectangle getRectangle() {
@@ -214,5 +223,45 @@ public class GameProp {
      */
     public void setImg(Image img) {
         this.img = img;
+    }
+
+    /**
+     * 获取
+     * @return impactDamage
+     */
+    public int getImpactDamage() {
+        return impactDamage;
+    }
+
+    /**
+     * 设置
+     * @param impactDamage
+     */
+    public void setImpactDamage(int impactDamage) {
+        this.impactDamage = impactDamage;
+    }
+
+    public void setVis(int vis) {
+        this.vis = vis;
+    }
+
+    public int getVis() {
+        return vis;
+    }
+
+    /**
+     * 获取
+     * @return underImg
+     */
+    public Image getUnderImg() {
+        return underImg;
+    }
+
+    /**
+     * 设置
+     * @param underImg
+     */
+    public void setUnderImg(Image underImg) {
+        this.underImg = underImg;
     }
 }

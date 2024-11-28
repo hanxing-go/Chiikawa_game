@@ -39,4 +39,14 @@ public static Image explode = Toolkit.getDefaultToolkit().getImage(".\\img\\expl
     public static Image win = Toolkit.getDefaultToolkit().getImage(".\\img\\win.png");
 
 
+    public static Image mud = Toolkit.getDefaultToolkit().getImage(".\\img\\mud.png");
+    public static Image box = Toolkit.getDefaultToolkit().getImage(".\\img\\box.png");
+    public static Image pajamsUsaqi = Toolkit.getDefaultToolkit().getImage(".\\img\\pajams2.png");
+    public static Image pajamseight = Toolkit.getDefaultToolkit().getImage(".\\img\\pajams1.png");
+    public static Image pajamsjiy = Toolkit.getDefaultToolkit().getImage(".\\img\\pajams0.png");
+    public static Image cooies = Toolkit.getDefaultToolkit().getImage(".\\img\\cookies.png");
+    public static Image wand = Toolkit.getDefaultToolkit().getImage((".\\img\\wand.png"));
+    public static Image camera = Toolkit.getDefaultToolkit().getImage(".\\img\\camera.png");
+    public static Image noodles = Toolkit.getDefaultToolkit().getImage(".\\ing\\noodles.png");
+    public static Image mushroom = Toolkit.getDefaultToolkit().getImage(".\\img\\mushroom");
 }

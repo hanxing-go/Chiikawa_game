@@ -6,6 +6,14 @@ import JavaBean.Player.GamePlayer;
 import java.awt.*;
 
 public class PaintUtils {
+    public static void paintAll(Graphics g, Background b1, Background b2) {
+        paintBackground(g, b1, b2);
+        paintBackground(g,ObjUtils.background, ObjUtils.background1);//绘制地图
+        paintPlayer(g);//绘制游戏角色
+        paintEnemies(g);//绘制敌人
+        paintExplode(g);//绘制子弹
+        paintGameProp(g);//绘制道具
+    }
 
     public static void paintPlayer(Graphics g) {
 //        player.paintSelf(g);
@@ -32,7 +40,7 @@ public class PaintUtils {
         background1.paintSelf(g);
     }
 
-    public static void paintGameObj(Graphics g) {
+    public static void paintGameProp(Graphics g) {
         for (int i = 0; i < ObjUtils.gameProps.size(); i++) {
             ObjUtils.gameProps.get(i).paintSelf(g);
         }

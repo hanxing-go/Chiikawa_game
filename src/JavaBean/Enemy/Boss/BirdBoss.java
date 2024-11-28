@@ -11,14 +11,14 @@ import java.util.Random;
 
 public class BirdBoss extends Boss {
     private int second = 0;
-    private int[] behavior_probability = {1,1,0,1,1,2,2,2,3,0};
+    private int[] behavior_probability = {1,1,0,1,1,2,2,2,3,3};
     private Random r = new Random();
     private int crashflag = 0;//设置一个冲撞标记
 
 
     public BirdBoss(int x, int y, Image img, int height, int weight, int speed) {
         super(x, y, img, height, weight, speed);
-        super.setHP(250);
+        super.setHP(500);
         super.setType(250);
         super.setSpeedy(5);
     }
@@ -27,9 +27,13 @@ public class BirdBoss extends Boss {
     public void paintSelf(Graphics g) {
         super.paintSelf(g);
         g.drawImage(super.getImg(),super.getX(),super.getY(),null);
+        behavior();
+
+    }
+
+    private void behavior() {
         second++;
         int behavior = r.nextInt(10);
-
         //一开始缓缓入场
         if (super.getX() > 800 ) {
             super.setX(super.getX() - 3);
@@ -43,15 +47,22 @@ public class BirdBoss extends Boss {
                     attack2();
                 } else if (behavior_probability[behavior] == 3) {
                     //修改鸟的方向
-                    super.setImg(ImageUtils.birdBoss1 );//设置为红温图片
-                    super.setSpeed(15);
-                    crashflag = crashflag ^ 1;
+                    attack3();
                 }
             }
-
-
         }
+        move();
+        //判断是否冲撞结束
+        if (super.getX() < -420 && crashflag == 1) {
+            crashflag = crashflag ^ 1;
+//            System.out.println("冲撞结束");
+            super.setImg(ImageUtils.birdBoss);//回到原来的图像
+            super.setX(1498);
+            super.setSpeed(0);
+        }
+    }
 
+    private void move() {
         // Boss应该随机上下移动
         if (super.getY() > 300) {
             super.setSpeedy( 5 + r.nextInt(10) );
@@ -61,18 +72,13 @@ public class BirdBoss extends Boss {
             super.setSpeedy( 5 + r.nextInt(10) );
         }
         super.setY(super.getY() + super.getSpeedy());
-
-        //判断是否冲撞结束
-        if (super.getX() < -420 && crashflag == 1) {
-            crashflag = crashflag ^ 1;
-//            System.out.println("冲撞结束");
-            super.setImg(ImageUtils.birdBoss);//回到原来的图像
-            super.setX(1498);
-            super.setSpeed(0);
-        }
-
     }
 
+    private void attack3() {
+        super.setImg(ImageUtils.birdBoss1 );//设置为红温图片
+        super.setSpeed(15);
+        crashflag = crashflag ^ 1;
+    }
 
     private void attack2() {
         ObjUtils.enemies.add(new Egg(super.getX(), super.getY() + 200, ImageUtils.egg,
@@ -83,7 +89,7 @@ public class BirdBoss extends Boss {
     private void attack1() {
         // 行为1 : 拉屎 设置为每隔一定时间就拉一坨屎
         ObjUtils.gameProps.add(new Shit(super.getX(), super.getY() + 200, 121, 120, ImageUtils.shit,
-                0, 5, -5, 3, 0));
+                0, 5, 0, 3, 0));
     }
 
     @Override

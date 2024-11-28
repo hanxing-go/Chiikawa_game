@@ -1,7 +1,9 @@
 import JavaBean.*;
+import JavaBean.Player.GamePlayer;
 import Utils.ImageUtils;
 import Utils.ObjUtils;
 import Utils.PaintUtils;
+import Utils.SkillUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,20 +68,16 @@ public class GameFrame extends JFrame{
 
             }
 }
-        if (ObjUtils.flag == 0) {
+        if (ObjUtils.flag == 0) {// 游戏进行
 
-            PaintUtils.paintBackground(gBuffer,ObjUtils.background, ObjUtils.background1);//绘制地图
-            PaintUtils.paintPlayer(gBuffer);//绘制游戏角色
-            PaintUtils.paintEnemies(gBuffer);//绘制敌人
-            PaintUtils.paintExplode(gBuffer);//绘制子弹
-            PaintUtils.paintGameObj(gBuffer);//绘制道具
+            PaintUtils.paintAll(gBuffer, ObjUtils.background, ObjUtils.background1);
 
             //如果得分大于500 那么boss降临
-            if (ObjUtils.gameScore >= 250) {
+            if (ObjUtils.gameScore >= 0) {
                 ObjUtils.birdBoss.paintSelf(gBuffer);
             }
 
-        } else if (ObjUtils.flag == 1) {
+        } else if (ObjUtils.flag == 1) {//游戏暂停
 
             gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
             gBuffer.drawImage(ObjUtils.background.getImg(), ObjUtils.background.getX(), ObjUtils.background.getY(),null);
@@ -132,9 +130,8 @@ public class GameFrame extends JFrame{
 
 
     private void gameStart() {
-        ObjUtils.addExplode();
-        ObjUtils.addEnemy();
-        ObjUtils.addGamePlayer();
+
+        ObjUtils.addObj();
         ObjUtils.removeObj();
         ObjUtils.checkGame();
     }
@@ -169,29 +166,10 @@ public class GameFrame extends JFrame{
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     System.exit(0);
                 }
-//                 先不考虑键盘移动了
-//                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-//                    // 向左边移动，但是你得要判断角色是否超出边界
-//                    if (ObjUtils.usagi.getX() >= 0) {
-//                        ObjUtils.usagi.setX(ObjUtils.usagi.getX() - speed);
-//                    }
-//                }
-//                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-//                    if (ObjUtils.usagi.getX() < 1080) {
-//                        ObjUtils.usagi.setX(ObjUtils.usagi.getX() + speed);
-//                    }
-//                }
-//                if (e.getKeyCode() == KeyEvent.VK_UP) {
-////                    System.out.println(1);
-//                    if (ObjUtils.usagi.getY() >= 10) {
-//                        ObjUtils.usagi.setY(ObjUtils.usagi.getY() - speed);
-//                    }
-//                }
-//                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-//                    if (ObjUtils.usagi.getY() <= 470) {
-//                        ObjUtils.usagi.setY(ObjUtils.usagi.getY() + speed);
-//                    }
-//                }
+                if (e.getKeyChar() == 'h' || e.getKeyChar() == 'H') {
+                    SkillUtils.redUsaqi();
+                }
+
             }
         });
     }

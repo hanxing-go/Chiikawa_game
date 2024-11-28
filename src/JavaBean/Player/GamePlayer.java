@@ -5,11 +5,14 @@ import JavaBean.GameObj;
 import java.awt.*;
 
 public class GamePlayer extends GameObj {
+    private int MaxHP = 15;
     //相比GameObj应该多如下属性
     //1. HP
     private int hp;
     //2. 子弹数量
     private int explodenum;
+    private int Maxexplodenum = 0;
+
     //3. 技能次数
     private int skillcount;
     //4. 子弹伤害
@@ -24,6 +27,7 @@ public class GamePlayer extends GameObj {
         this.skillcount = skillcount;
         this.damage = damage;
     }
+
 
 
 
@@ -125,5 +129,43 @@ public class GamePlayer extends GameObj {
      */
     public void setType(int type) {
         this.type = type;
+    }
+
+    /**
+     * 获取
+     * @return getMaxHP
+     */
+
+
+    /**
+     * 获取
+     * @return MaxHP
+     */
+    public int getMaxHP() {
+        return MaxHP;
+    }
+
+    /**
+     * 设置
+     * @param MaxHP
+     */
+    public void setMaxHP(int MaxHP) {
+        this.MaxHP = MaxHP;
+    }
+
+    /**
+     * 获取
+     * @return Maxexplodenum
+     */
+    public int getMaxexplodenum() {
+        return Maxexplodenum;
+    }
+
+    /**
+     * 设置
+     * @param Maxexplodenum
+     */
+    public void setMaxexplodenum(int Maxexplodenum) {
+        this.Maxexplodenum = Maxexplodenum;
     }
 }
