@@ -21,6 +21,9 @@ public class PropUtils {
             case 5:
                 wandBuff(gameProp);
                 break;
+            case 6:
+                starBuff(gameProp);
+                break;
             case 7:
                 bookBuff(gameProp);
                 break;
@@ -34,12 +37,26 @@ public class PropUtils {
             case 12:
                 mushroomBuff(gameProp);
                 break;
+            case 20:
+                meteoriteBuff(gameProp);
+                break;
         }
+    }
+
+    private static void meteoriteBuff(GameProp gameProp) {
+        propBuff(gameProp);
+        setGamePropXY(gameProp);
+    }
+
+    private static void starBuff(GameProp gameProp) {
+        propBuff(gameProp);
+        setGamePropXY(gameProp);
     }
 
     private static void bookBuff(GameProp gameProp) {
         if (ObjUtils.flagjiy1 == 0) {
             // 如果还没出现吉伊，那么就添加一个吉伊
+            ObjUtils.flagjiy1 = 1;
         } else {
             for (GamePlayer gamePlayer : ObjUtils.gamePlayers) {
                 if (gamePlayer.getType() == 0) {
@@ -48,6 +65,7 @@ public class PropUtils {
                 }
             }
         }
+        setGamePropXY(gameProp);
     }
 
     private static void mushroomBuff(GameProp gameProp) {

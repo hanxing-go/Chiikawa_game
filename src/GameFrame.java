@@ -69,14 +69,7 @@ public class GameFrame extends JFrame{
             }
 }
         if (ObjUtils.flag == 0) {// 游戏进行
-
             PaintUtils.paintAll(gBuffer, ObjUtils.background, ObjUtils.background1);
-
-            //如果得分大于500 那么boss降临
-            if (ObjUtils.gameScore >= 0) {
-                ObjUtils.birdBoss.paintSelf(gBuffer);
-            }
-
         } else if (ObjUtils.flag == 1) {//游戏暂停
 
             gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
@@ -100,7 +93,7 @@ public class GameFrame extends JFrame{
             gBuffer.drawImage(ImageUtils.lose,0,0,null);
             gBuffer.drawImage(ImageUtils.titleImg,435,460,null);
 
-        } else if (ObjUtils.flag == 3) {
+        } else if (ObjUtils.flag == 3) {//击败第一个boss
             if (this.x == 0) {
                 try {
                     Thread.sleep(1500);
@@ -109,20 +102,21 @@ public class GameFrame extends JFrame{
                 }
                 this.x = 1;
             }
-            newgame();
+            continueGame();// 这里有清除所有敌人与子弹
             gBuffer.drawImage(ImageUtils.win,0,0,null);
             gBuffer.drawImage(ImageUtils.titleImg,435,460,null);
 
-        }
-        g.drawImage(iBuffer, 0, 0, this);
+        } else if (ObjUtils.flag) {//击败第二个boss
 
+        }
+
+
+        g.drawImage(iBuffer, 0, 0, this);
 
         ObjUtils.count++;//每重绘一次，就自增
         if (ObjUtils.count == Integer.MAX_VALUE) {
             ObjUtils.count = 0;
         }
-
-
 
     }
     //绘制窗口，使用双缓存技术
@@ -136,6 +130,10 @@ public class GameFrame extends JFrame{
         ObjUtils.checkGame();
     }
     //游戏开始
+    private void continueGame() {
+        ObjUtils.enemies.clear();
+        ObjUtils.explodeList.clear();
+    }
 
     private void newgame() {
         ObjUtils.removeAll();//清空所有
@@ -147,7 +145,13 @@ public class GameFrame extends JFrame{
         ObjUtils.flagjiy2 = 0;
         ObjUtils.flageight2 = 0;
         ObjUtils.flagusaqi2 = 0;
+        // boss要设置为0
+        ObjUtils.flagBird = 0;
+        ObjUtils.flagDragon = 0;
+        ObjUtils.flagqimeila = 0;
     }
+
+
     private void addKey() {
         this.addKeyListener(new KeyAdapter() {
             @Override
@@ -173,8 +177,6 @@ public class GameFrame extends JFrame{
             }
         });
     }
-
-
 
     private void addMouse() {
         this.addMouseListener(new MouseAdapter() {

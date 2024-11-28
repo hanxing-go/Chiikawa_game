@@ -1,6 +1,7 @@
 package Utils;
 
 import JavaBean.Background;
+import JavaBean.Enemy.Boss.Boss;
 import JavaBean.Player.GamePlayer;
 
 import java.awt.*;
@@ -13,12 +14,16 @@ public class PaintUtils {
         paintEnemies(g);//绘制敌人
         paintExplode(g);//绘制子弹
         paintGameProp(g);//绘制道具
+        paintBoss(g);
+    }
+
+    private static void paintBoss(Graphics g) {
+        for (Boss boss1 : ObjUtils.boss) {
+            boss1.paintSelf(g);
+        }
     }
 
     public static void paintPlayer(Graphics g) {
-//        player.paintSelf(g);
-
-        //如果这个时候有协助角色加入，也要画出来
         for (int i = 0; i < ObjUtils.gamePlayers.size(); i++) {
             ObjUtils.gamePlayers.get(i).paintSelf(g);
         }

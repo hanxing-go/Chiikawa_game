@@ -47,6 +47,14 @@ public static Image explode = Toolkit.getDefaultToolkit().getImage(".\\img\\expl
     public static Image cooies = Toolkit.getDefaultToolkit().getImage(".\\img\\cookies.png");
     public static Image wand = Toolkit.getDefaultToolkit().getImage((".\\img\\wand.png"));
     public static Image camera = Toolkit.getDefaultToolkit().getImage(".\\img\\camera.png");
-    public static Image noodles = Toolkit.getDefaultToolkit().getImage(".\\ing\\noodles.png");
-    public static Image mushroom = Toolkit.getDefaultToolkit().getImage(".\\img\\mushroom");
+    public static Image noodles = Toolkit.getDefaultToolkit().getImage(".\\img\\noodles.png");
+    public static Image mushroom = Toolkit.getDefaultToolkit().getImage(".\\img\\mushroom.png");
+    public static Image book = Toolkit.getDefaultToolkit().getImage(".\\img\\book.png");
+    public static Image star = Toolkit.getDefaultToolkit().getImage(".\\img\\star.png");
+    public static Image bossX = Toolkit.getDefaultToolkit().getImage(".\\img\\bossX.png");
+    public static Image bossX1 = Toolkit.getDefaultToolkit().getImage(".\\img\\bossX1.png");
+    public static Image meteorite = Toolkit.getDefaultToolkit().getImage(".\\img\\meteorite.png");
+    public static Image meteorite1 = Toolkit.getDefaultToolkit().getImage(".\\img\\meteorite1.png");
+    public static Image brother = Toolkit.getDefaultToolkit().getImage(".\\img\\brother.png");
+    public static Image brother1 = Toolkit.getDefaultToolkit().getImage(".\\img\\redbrother.png");
 }

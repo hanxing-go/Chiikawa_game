@@ -1,8 +1,10 @@
 package Utils;
 
 import JavaBean.*;
+import JavaBean.Enemy.Boss.Boss;
+import JavaBean.Enemy.Boss.Dragon.DragonBoss;
 import JavaBean.Enemy.Worm.*;
-import JavaBean.Enemy.Boss.BirdBoss;
+import JavaBean.Enemy.Boss.Bird.BirdBoss;
 import JavaBean.Enemy.Enemy;
 import JavaBean.Explode.Explode;
 import JavaBean.Player.Eight;
@@ -21,22 +23,13 @@ public class ObjUtils {
     public static List<GameProp> gameProps = new ArrayList<>();
     public static List<Explode> explodeList = new ArrayList<>();// 批量添加子弹，创建队列集合
     public static List<GamePlayer> gamePlayers = new ArrayList<>();
-    public static List<Enemy> boss = new ArrayList<>();
-    public static BirdBoss birdBoss = new BirdBoss(1498,170,ImageUtils.birdBoss,100,298,0);
-//    public static
-
-//    public static Usagi usagi = new Usagi(100,250,ImageUtils.Usagi,
-//            100,100,0,5,1,3);
-
-
-
+    public static List<Boss> boss = new ArrayList<>();// 添加Boss这个集合
     public static Background background = new Background(0,0, ImageUtils.backgroundImg2,0,0,5);
     public static Background background1 = new Background(2400,0, ImageUtils.backgroundImg2,1,1,5);
     public static int numEnemy = 0;//统计生成的怪物的数量
-    public static int STAGE = 10;//阶段，由简单到难
+    public static int STAGE = 15;//阶段，由简单到难
     public static long count = 0;
     public static int gameScore = 0;
-    public static boolean bosstrue = false;
 
 
     public static int flag = 1;
@@ -50,40 +43,67 @@ public class ObjUtils {
     }
 
     public static void removeAll() {
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.remove(i);
-        }
-
-        for (int i = 0; i < explodeList.size(); i++) {
-            explodeList.remove(i);
-        }
-
-        for (int i = 0; i < gameProps.size(); i++) {
-            gameProps.remove(i);
-        }
-
-        for (int i = 0; i < gamePlayers.size(); i++) {
-            gamePlayers.remove(i);
-        }
+        enemies.clear();
+        explodeList.clear();
+        gameProps.clear();
+        gameProps.clear();
+        boss.clear();
     }
     public static void addObj() {
         addEnemy();
         addExplode();
         addGamePlayer();
         addProp();
+        addBoss();
     }
+
+
+
     public static void removeObj() {
         removeEnemy();        // 删除敌人
         removeExplode();        // 删除子弹
         removePlayer();        // 删除角色
         removeProp();        // 删除道具
+        removeBoss();
+    }
+
+    public static int flagBird = 0;
+    public static int flagDragon = 0;
+    public static int flagqimeila = 0;
+    private static void addBoss() {
+        System.out.println(gameScore);
+        if (gameScore > 250 && flagBird == 0) {
+            boss.add(new BirdBoss(1498,170,ImageUtils.birdBoss,100,298,0));
+            flagBird = 1;
+        }
+        if (gameScore > 0 && flagDragon == 0) {
+            boss.add(new DragonBoss(1500, 200, ImageUtils.bossX, 232, 210, 0));
+            flagDragon = 1;
+        }
+    }
+    private static void removeBoss() {
+
+        // 执行删除逻辑
+        for (int i = boss.size() - 1; i >= 0; i--) {
+            if (boss.get(i).getHP() <= 0) {
+                gameProps.add(new Star(boss.get(i).getX(),boss.get(i).getY(), ImageUtils.star));                // 产生一颗道具星星
+                switch (boss.get(i).getBosstype()){
+                    case 1:
+                        flag = 3;
+                        break;
+                    case 2:
+                        flag = 4;
+                }
+                boss.remove(i);
+            }
+        }
     }
 
     public static void addProp() {
         // 添加道具应该是随机的
         Random random = new Random();
         int type = random.nextInt(21);
-        int[] proparry = new int[]{8, 8, 3, 2, 7, 7, 2, 2, 11, 5, 12, 12, 3, 2, 11, 2, 2, 11, 11, 5};
+        int[] proparry = new int[]{8, 0, 3, 2, 7, 0, 2, 2, 11, 5, 12, 12, 3, 2, 11, 2, 2, 11, 11, 5, 0, 0, 0};
 
         int y = 45 + random.nextInt(500);
 
@@ -108,7 +128,8 @@ public class ObjUtils {
                     gameProps.add(new Wand(1400, y, ImageUtils.wand));
                     break;
                 case 7:
-                    gameProps.add(new Book(1400, y, ImageUtils.wand));
+                    gameProps.add(new Book(1400, y, ImageUtils.book));
+                    break;
                 case 8:
                     // 小八照相机，直接召唤小八，嘻嘻
                     gameProps.add(new Camera(1400, y, ImageUtils.camera));
@@ -118,6 +139,7 @@ public class ObjUtils {
                     break;
                 case 12:
                     gameProps.add(new Mushroom(1400, y, ImageUtils.mushroom));
+                    System.out.println("mogu");
                     break;
             }
 
@@ -135,7 +157,7 @@ public class ObjUtils {
             }
         }
         // 执行删除逻辑
-        for (int i = 0; i < gameProps.size(); i++) {
+        for (int i = gameProps.size() - 1; i >= 0; i--) {
             if (gameProps.get(i).getX() <= -1200) {
                 gameProps.remove(i);
             }
@@ -173,12 +195,21 @@ public class ObjUtils {
     }
 
     public static void removePlayer() {
-        for (int i = 0; i < gamePlayers.size(); i++) {
+        // 如果boss 直接创了你，你就会直接暴毙
+        for (GamePlayer gamePlayer : gamePlayers) {
+            for (Boss b : boss) {
+                if (checkIntersect(gamePlayer.getRectangle(), b.getRectangle())) {
+                    gamePlayer.setHp(0);
+                }
+            }
+        }
+
+        for (int i = gamePlayers.size() - 1; i >= 0; i--) {
             if (gamePlayers.get(i).getHp() <= 0) {
-//                System.out.println("删除角色");
                 gamePlayers.remove(i);
             }
         }
+
     }
 
     public static void addExplode() {
@@ -348,23 +379,17 @@ public class ObjUtils {
                 }
             }
 
-            if (birdBoss.getX() <= 800 && checkIntersect(explodeList.get(i).getRectangle(), birdBoss.getRectangle())) {
-                birdBoss.setHP(birdBoss.getHP() - explodeList.get(i).getDamage());
-                explodeList.get(i).setX(1400);
+            for (Boss boss1 : boss) {
+                if (boss1.getX() <= 800 && checkIntersect(explodeList.get(i).getRectangle(), boss1.getRectangle())) {
+                    boss1.setHP(boss1.getHP() - explodeList.get(i).getDamage());
+                    explodeList.get(i).setX(1400);
 
-                if (birdBoss.getHP() < 0) {
-//                    System.out.println("boss死了");
-                    //直接判断游戏胜利得了
-//                    System.out.println("游戏胜利");
-                    birdBoss.setImg(ImageUtils.birdBoss2);
-                    System.out.println("设置成功");
-                    flag = 3;
                 }
-
             }
+
         }
         //再执行删除逻辑
-        for (int i = 0; i < explodeList.size(); i++) {
+        for (int i = explodeList.size() - 1; i >= 0; i--) {
             if (explodeList.get(i).getX() > 1200) {
                 explodeList.remove(i);
             }
@@ -406,10 +431,10 @@ public class ObjUtils {
         //先执行相撞逻辑
         for (int i = 0; i < enemies.size(); i++) {
             //判断是否和boss相撞
-            if (birdBoss.getX() <= 800 && checkIntersect(enemies.get(i).getRectangle(),birdBoss.getRectangle())
-                    && enemies.get(i).getType() < 5 ) {
-                enemies.get(i).setX(-2000);
-            }
+//            if (birdBoss.getX() <= 800 && checkIntersect(enemies.get(i).getRectangle(),birdBoss.getRectangle())
+//                    && enemies.get(i).getType() < 5 ) {
+//                enemies.get(i).setX(-2000);
+//            }
             //判断是否和角色相撞
             for (int j = 0; j < gamePlayers.size(); j++) {
                 if (checkIntersect(enemies.get(i).getRectangle(), gamePlayers.get(j).getRectangle())) {
@@ -420,7 +445,7 @@ public class ObjUtils {
             }
         }
         //再执行删除逻辑
-        for (int i = 0; i < enemies.size(); i++) {
+        for (int i = enemies.size() - 1; i > 0; i--) {
             if (enemies.get(i).getX() < -2000) {
                 enemies.remove(i);
             }

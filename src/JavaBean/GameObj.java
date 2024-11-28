@@ -92,6 +92,7 @@ public class GameObj {
      */
     public void setImg(Image img) {
         this.img = img;
+        System.out.println("换图");
     }
 
     public String toString() {

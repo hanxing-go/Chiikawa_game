@@ -1,7 +1,6 @@
-package JavaBean.Enemy.Boss;
+package JavaBean.Enemy.Boss.Bird;
 
-import JavaBean.Enemy.Boss.Bird.Egg;
-import JavaBean.Enemy.Boss.Bird.Boss;
+import JavaBean.Enemy.Boss.Boss;
 import JavaBean.Prop.Shit;
 import Utils.ImageUtils;
 import Utils.ObjUtils;
@@ -19,8 +18,9 @@ public class BirdBoss extends Boss {
     public BirdBoss(int x, int y, Image img, int height, int weight, int speed) {
         super(x, y, img, height, weight, speed);
         super.setHP(500);
-        super.setType(250);
+        super.setType(500);
         super.setSpeedy(5);
+        super.setBosstype(1);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class BirdBoss extends Boss {
         behavior();
 
     }
-
-    private void behavior() {
+    @Override
+    protected void behavior() {
         second++;
         int behavior = r.nextInt(10);
         //一开始缓缓入场
@@ -51,7 +51,7 @@ public class BirdBoss extends Boss {
                 }
             }
         }
-        move();
+        super.move();
         //判断是否冲撞结束
         if (super.getX() < -420 && crashflag == 1) {
             crashflag = crashflag ^ 1;
@@ -62,17 +62,6 @@ public class BirdBoss extends Boss {
         }
     }
 
-    private void move() {
-        // Boss应该随机上下移动
-        if (super.getY() > 300) {
-            super.setSpeedy( 5 + r.nextInt(10) );
-            super.setSpeedy(-super.getSpeedy());
-        }
-        if (super.getY() < -100) {
-            super.setSpeedy( 5 + r.nextInt(10) );
-        }
-        super.setY(super.getY() + super.getSpeedy());
-    }
 
     private void attack3() {
         super.setImg(ImageUtils.birdBoss1 );//设置为红温图片
@@ -84,7 +73,6 @@ public class BirdBoss extends Boss {
         ObjUtils.enemies.add(new Egg(super.getX(), super.getY() + 200, ImageUtils.egg,
                 100,135,5));
         //
-        System.out.println("下蛋了");
     }
     private void attack1() {
         // 行为1 : 拉屎 设置为每隔一定时间就拉一坨屎
