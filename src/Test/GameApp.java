@@ -17,8 +17,7 @@ import java.util.Timer;
 
 public class GameApp extends JFrame{
 
-    private AudioPlayer audioPlayer = new AudioPlayer(); // 音频管理实例
-    private Timer voiceTimer; // 定时器用于随机播放角色语音
+    private MusicUtils musicPlayer;
 
 
     public GameApp () {
@@ -73,6 +72,8 @@ public class GameApp extends JFrame{
         }
         if (ObjUtils.flag == 0) {// 游戏进行
             PaintUtils.paintAll(gBuffer, ObjUtils.background, ObjUtils.background1);
+            musicPlayer = new MusicUtils(".\\music\\test.WAV");
+            musicPlayer.start();
         } else if (ObjUtils.flag == 1) {//游戏还未开始
             gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
             gBuffer.drawImage(ObjUtils.background.getImg(), ObjUtils.background.getX(), ObjUtils.background.getY(),null);
@@ -127,6 +128,7 @@ public class GameApp extends JFrame{
         ObjUtils.addObj();
         ObjUtils.removeObj();
         ObjUtils.checkGame();
+
     }
     //游戏开始
     private void continueGame() {

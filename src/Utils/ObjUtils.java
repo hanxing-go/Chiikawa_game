@@ -104,8 +104,8 @@ public class ObjUtils {
         // 添加道具应该是随机的
         Random random = new Random();
         int type = random.nextInt(21);
-//        int[] proparry = new int[]{8, 0, 3, 2, 7, 0, 2, 2, 11, 5, 12, 12, 3, 2, 11, 2, 2, 11, 11, 5, 0, 0, 0};
-        int[] proparry = new int[]{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
+        int[] proparry = new int[]{8, 0, 3, 2, 7, 0, 2, 2, 11, 5, 12, 12, 3, 2, 11, 2, 2, 11, 11, 5, 0, 0, 0};
+//        int[] proparry = new int[]{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
 
         int y = 45 + random.nextInt(500);
 

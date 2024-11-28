@@ -5,44 +5,41 @@ import java.io.File;
 import java.io.IOException;
 
 public class AudioPlayer {
-    private Clip clip;
+    private SourceDataLine line;
 
     public void play(String filePath, boolean loop) {
-        try {
-            // 打开音频文件
-            File audioFile = new File(filePath);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+        new Thread(() -> {
+            try {
+                File audioFile = new File(filePath);
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+                AudioFormat format = audioStream.getFormat();
+                DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
+                line = (SourceDataLine) AudioSystem.getLine(info);
+                line.open(format);
+                line.start();
 
-            // 获取音频剪辑
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
+                byte[] buffer = new byte[4096];
+                int bytesRead;
 
-            // 循环播放
-            if (loop) {
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } else {
-                clip.start();
+                do {
+                    while ((bytesRead = audioStream.read(buffer)) != -1) {
+                        line.write(buffer, 0, bytesRead);
+                    }
+                    audioStream = AudioSystem.getAudioInputStream(audioFile); // 重置流
+                } while (loop);
+
+                line.drain();
+                line.close();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
             }
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
+        }).start();
     }
 
     public void stop() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
-        }
-    }
-
-    public void pause() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
-        }
-    }
-
-    public void resume() {
-        if (clip != null) {
-            clip.start();
+        if (line != null && line.isRunning()) {
+            line.stop();
+            line.close();
         }
     }
 }
