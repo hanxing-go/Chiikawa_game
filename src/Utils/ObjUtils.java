@@ -76,7 +76,7 @@ public class ObjUtils {
             boss.add(new BirdBoss(1498,170,ImageUtils.birdBoss,100,298,0));
             flagBird = 1;
         }
-        if (gameScore > 1500 && flagDragon == 0) {
+        if (gameScore > 1000 && flagDragon == 0) {
             boss.add(new DragonBoss(1500, 200, ImageUtils.bossX, 232, 210, 0));
             flagDragon = 1;
         }
@@ -104,7 +104,7 @@ public class ObjUtils {
         // 添加道具应该是随机的
         Random random = new Random();
         int type = random.nextInt(21);
-        int[] proparry = new int[]{8, 0, 3, 2, 7, 0, 2, 2, 11, 5, 12, 12, 3, 2, 11, 2, 2, 11, 11, 5, 0, 0, 0};
+        int[] proparry = new int[]{8, 0, 3, 2, 7, 0, 0, 2, 11, 5, 2, 12, 3, 2, 2, 2, 2, 11, 11, 2, 0, 0, 0};
 //        int[] proparry = new int[]{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
 
         int y = 45 + random.nextInt(500);

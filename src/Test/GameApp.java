@@ -72,7 +72,7 @@ public class GameApp extends JFrame{
         }
         if (ObjUtils.flag == 0) {// 游戏进行
             PaintUtils.paintAll(gBuffer, ObjUtils.background, ObjUtils.background1);
-            musicPlayer = new MusicUtils(".\\music\\test.WAV");
+            musicPlayer = new MusicUtils(".\\music\\bgMusic.WAV");
             musicPlayer.start();
         } else if (ObjUtils.flag == 1) {//游戏还未开始
             gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);

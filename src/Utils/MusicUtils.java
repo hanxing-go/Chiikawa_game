@@ -6,7 +6,7 @@ import javax.sound.sampled.*;
 
 public class MusicUtils extends Thread {
     private String fileName;
-    private final int EXTERNAL_BUFFER_SIZE = 4096; // 缓冲区大小
+    private final int EXTERNAL_BUFFER_SIZE = 520888; // 缓冲区大小
     private boolean isPlaying = true; // 控制播放状态
 
     public MusicUtils(String wavFile) {

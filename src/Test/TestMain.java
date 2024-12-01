@@ -7,7 +7,7 @@ public class TestMain {
     public static void main(String[] args) {
         GameApp ga = new GameApp();
         ga.initFrame();
-//        musicPlayer = new MusicUtils(".\\music\\test.WAV");
-//        musicPlayer.start();
+        musicPlayer = new MusicUtils(".\\music\\bgMusic.WAV");
+        musicPlayer.start();
     }
 }

@@ -19,7 +19,7 @@ public class DragonBoss extends Boss {
 
     public DragonBoss(int x, int y, Image img, int height, int weight, int speed) {
         super(x, y, img, height, weight, speed);
-        super.setHP(1000);
+        super.setHP(1500);
         super.setType(250);
         super.setSpeedy(5);
         super.setBosstype(2);
@@ -41,7 +41,7 @@ public class DragonBoss extends Boss {
             super.setX(super.getX() - 3);
         } else if (crashflag == 0){
             // boss的行为模式，为每种模式设置不同的概率
-            if (second % 60 == 0) {
+            if (second % 45 == 0) {
                 if (behavior_probability[behavior] == 1) {
                     attack1(behavior);
                 } else if (behavior_probability[behavior] == 2) {

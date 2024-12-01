@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.List;
 
 
-public class GameFrame extends JFrame{
+public class GameFrame extends JFrame implements Runnable{
 
     public GameFrame () {
         super("Chiikawa");
@@ -136,12 +136,13 @@ public class GameFrame extends JFrame{
         ObjUtils.gameScore = 0;//分数要设置为0
         ObjUtils.numEnemy = 0;//怪物数量要设置为0
         ObjUtils.count = 0;//都设置为0;
+        ObjUtils.STAGE = 15;//难度系数要重新调回来
         // 创建角色的标记要重新归0
         ObjUtils.flagjiy1 = 0;
         ObjUtils.flagjiy2 = 0;
         ObjUtils.flageight1 = 0;
         ObjUtils.flageight2 = 0;
-        ObjUtils.flagusaqi1 = 0;
+        ObjUtils.flagusaqi1 = 1;
         ObjUtils.flagusaqi2 = 0;
         // boss要设置为0
         ObjUtils.flagBird = 0;
@@ -161,6 +162,7 @@ public class GameFrame extends JFrame{
                         ObjUtils.flag = 0;
                     } else if (ObjUtils.flag == 2){//如果游戏失败，就回到开始界面
                         ObjUtils.flag = 1;
+                        System.out.println(ObjUtils.flag);
                     } else if (ObjUtils.flag == 5) {//如果游戏室暂停，则游戏继续
                       ObjUtils.flag = 0;
                     } else if (ObjUtils.flag == 4) {//打败了第二个boss，游戏结束
@@ -239,4 +241,9 @@ public class GameFrame extends JFrame{
         });
     }
     // 键鼠监听事件
+
+    @Override
+    public void run() {
+        initFrame();
+    }
 }
